@@ -13,6 +13,23 @@ public class Airplane {
     private int maxFirst;
     private int maxCoach;
 
+    public Airplane(String name){
+        this.name=name;
+    }
+    public Airplane(){
+        manufacturer = "";
+        name = "";
+        maxFirst = 0;
+        maxCoach = 0;
+    }
+
+    public Airplane(String manufacturer, String name, int maxFirst, int maxCoach) {
+        this.manufacturer = manufacturer;
+        this.name = name;
+        this.maxFirst = maxFirst;
+        this.maxCoach = maxCoach;
+    }
+
     public String getManufacturer() {
         return manufacturer;
     }
@@ -34,7 +51,11 @@ public class Airplane {
     }
 
     public void setMaxFirst(int maxFirst) {
-        this.maxFirst = maxFirst;
+        if(isValidSeat(maxFirst)) {
+            this.maxFirst = maxFirst;
+        }
+        else
+            throw new IllegalArgumentException(Integer.toString(maxFirst));
     }
 
     public int getMaxCoach() {
@@ -42,6 +63,17 @@ public class Airplane {
     }
 
     public void setMaxCoach(int maxCoach) {
-        this.maxCoach = maxCoach;
+        if(isValidSeat(maxCoach)) {
+            this.maxCoach = maxCoach;
+        }
+        else
+            throw new IllegalArgumentException(Integer.toString(maxCoach));
+    }
+
+    public boolean isValidSeat(int seatNum) {
+        if(seatNum<=0)
+            return false;
+        else
+            return true;
     }
 }
