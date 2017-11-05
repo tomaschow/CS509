@@ -19,8 +19,8 @@ public class Flight {
     private String depTime;
     private String arrAirportCode;
     private String arrTime;
-    private double firstClassPrice;
-    private double coachClassPrice;
+    private String firstClassPrice;
+    private String coachClassPrice;
     private int firstClassBooked;
     private int coachClassBooked;
 
@@ -32,20 +32,16 @@ public class Flight {
         arrAirportCode = "";
         depTime = "";
         arrTime = "";
-        firstClassPrice = 0;
-        coachClassPrice = 0;
+        firstClassPrice = "";
+        coachClassPrice = "";
         firstClassBooked = 0;
         coachClassBooked = 0;
     }
-    boolean isValid(){
-        if (flightTime < 0||firstClassPrice<0||coachClassPrice<0||flightNumber.equals(""))
-        {
-            return false;
-        }
-        return true;
+    public boolean isValid(){
+        return flightTime >= 0 && !firstClassPrice.equals("") && !coachClassPrice.equals("") && !flightNumber.equals("");
     }
     public Flight(String planeName, int flightTime, String flightNumber, String depAirportCode
-            , String depTime, String arrAirportCode, String arrTime, double firstClassPrice, double coachClassPrice
+            , String depTime, String arrAirportCode, String arrTime, String firstClassPrice, String coachClassPrice
             , int firstClassBooked, int coachClassBooked) {
         airplane = new Airplane(planeName);
         this.flightTime = flightTime;
@@ -62,7 +58,7 @@ public class Flight {
     }
     @Override
     public String toString(){
-        return flightNumber+" "+depAirportCode+" "+depTime+" "+arrAirportCode
+        return airplane.getName()+" "+depAirportCode+" "+depTime+" "+arrAirportCode
                 +" "+arrTime+" "+firstClassBooked+" "+firstClassPrice+" "+coachClassBooked
                 +" "+coachClassPrice;
     }
@@ -122,19 +118,19 @@ public class Flight {
         this.arrTime = arrTime;
     }
 
-    public double getFirstClassPrice() {
+    public String getFirstClassPrice() {
         return firstClassPrice;
     }
 
-    public void setFirstClassPrice(double firstClassPrice) {
+    public void setFirstClassPrice(String firstClassPrice) {
         this.firstClassPrice = firstClassPrice;
     }
 
-    public double getCoachClassPrice() {
+    public String getCoachClassPrice() {
         return coachClassPrice;
     }
 
-    public void setCoachClassPrice(double coachClassPrice) {
+    public void setCoachClassPrice(String coachClassPrice) {
         this.coachClassPrice = coachClassPrice;
     }
 

@@ -5,6 +5,6 @@ package util;
  */
 public class Main {
     public static void main(String[] args) {
-
+        System.out.println(HttpUtil.INSTANCE.getFlights("Shoebill", "2017_12_10", "BOS"));
     }
 }

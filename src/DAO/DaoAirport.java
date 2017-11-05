@@ -1,6 +1,6 @@
 package DAO;
 
-import beans.Airports;
+import entity.Airports;
 import entity.Airport;
 import org.w3c.dom.CharacterData;
 import org.w3c.dom.*;

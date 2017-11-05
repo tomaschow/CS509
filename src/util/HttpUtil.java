@@ -2,8 +2,8 @@ package util;
 
 import DAO.DaoAirport;
 import DAO.DaoFlight;
-import beans.Airports;
-import beans.Flights;
+import entity.Airports;
+import entity.Flights;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -24,7 +24,7 @@ public enum HttpUtil {
         HttpURLConnection connection;
         BufferedReader reader;
         String line;
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
 
         String xmlFlights;
         Flights flights;
@@ -54,8 +54,6 @@ public enum HttpUtil {
                 }
                 reader.close();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -63,7 +61,6 @@ public enum HttpUtil {
         xmlFlights = result.toString();
         flights = DaoFlight.addAll(xmlFlights);
         return flights;
-
     }
 
     public Airports getAirports (String teamName) {
@@ -72,7 +69,7 @@ public enum HttpUtil {
         HttpURLConnection connection;
         BufferedReader reader;
         String line;
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
 
         String xmlAirports;
         Airports airports;
@@ -102,8 +99,6 @@ public enum HttpUtil {
                 }
                 reader.close();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }

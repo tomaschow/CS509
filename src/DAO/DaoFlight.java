@@ -1,6 +1,6 @@
 package DAO;
 
-import beans.Flights;
+import entity.Flights;
 import entity.Airplane;
 import entity.Flight;
 import org.w3c.dom.CharacterData;
@@ -49,29 +49,47 @@ public class DaoFlight {
          String depTime;
          String arrAirportCode;
          String arrTime;
-         double firstClassPrice;
-         double coachClassPrice;
+         String firstClassPrice;
+         String coachClassPrice;
          int firstClassBooked;
          int coachClassBooked;
 
-        // The flight element has attributes of Name and 3 character flight code
-        Element elementAirport = (Element) nodeFlight;
-        name = elementAirport.getAttributeNode("Name").getValue();
-        code = elementAirport.getAttributeNode("Code").getValue();
-
-        // The latitude and longitude are child elements
-        Element elementLatLng;
-        elementLatLng = (Element)elementAirport.getElementsByTagName("Latitude").item(0);
-        latitude = Double.parseDouble(getCharacterDataFromElement(elementLatLng));
-
-        elementLatLng = (Element)elementAirport.getElementsByTagName("Longitude").item(0);
-        longitude = Double.parseDouble(getCharacterDataFromElement(elementLatLng));
-
-        flight.setName(name);
-        flight.setCode(code);
-        flight.setLatitude(latitude);
-        flight.setLongitude(longitude);
-
+        // The base element of Flight
+        Element elementFlight = (Element) nodeFlight;
+        airplane = new Airplane(elementFlight.getAttributeNode("Airplane").getValue());
+        flightTime = Integer.parseInt(elementFlight.getAttributeNode("FlightTime").getValue());
+        flightNumber = elementFlight.getAttributeNode("Number").getValue();
+        // The element of departure and arrival airports
+        Element airportTemp = (Element) elementFlight.getElementsByTagName("Departure").item(0);
+        Element code = (Element) airportTemp.getElementsByTagName("Code").item(0);
+        Element time = (Element) airportTemp.getElementsByTagName("Time").item(0);
+        depAirportCode = getCharacterDataFromElement(code);
+        depTime = getCharacterDataFromElement(time);
+        airportTemp = (Element) elementFlight.getElementsByTagName("Arrival").item(0);
+        code = (Element) airportTemp.getElementsByTagName("Code").item(0);
+        time = (Element) airportTemp.getElementsByTagName("Time").item(0);
+        arrAirportCode = getCharacterDataFromElement(code);
+        arrTime = getCharacterDataFromElement(time);
+        // The element of seating
+        Element seating = (Element) elementFlight.getElementsByTagName("Seating").item(0);
+        Element seatTemp = (Element) seating.getElementsByTagName("FirstClass").item(0);
+        firstClassPrice = seatTemp.getAttributeNode("Price").getValue();
+        firstClassBooked = Integer.parseInt(getCharacterDataFromElement(seatTemp));
+        seatTemp = (Element) seating.getElementsByTagName("Coach").item(0);
+        coachClassPrice = seatTemp.getAttributeNode("Price").getValue();
+        coachClassBooked = Integer.parseInt(getCharacterDataFromElement(seatTemp));
+        // Initializing the object
+        flight.setAirplane(airplane);
+        flight.setFlightTime(flightTime);
+        flight.setFlightNumber(flightNumber);
+        flight.setDepAirportCode(depAirportCode);
+        flight.setDepTime(depTime);
+        flight.setArrAirportCode(arrAirportCode);
+        flight.setArrTime(arrTime);
+        flight.setFirstClassBooked(firstClassBooked);
+        flight.setFirstClassPrice(firstClassPrice);
+        flight.setCoachClassBooked(coachClassBooked);
+        flight.setCoachClassPrice(coachClassPrice);
         return flight;
     }
 
