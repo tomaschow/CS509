@@ -1,4 +1,4 @@
-package entity;
+package beans;
 
 /**
  * Created by: Tomas on 2017/10/31.
@@ -38,7 +38,7 @@ public class Airplane {
         this.manufacturer = manufacturer;
     }
 
-    public String getName() {
+    String getName() {
         return name;
     }
 
@@ -46,7 +46,7 @@ public class Airplane {
         this.name = name;
     }
 
-    public int getMaxFirst() {
+    private int getMaxFirst() {
         return maxFirst;
     }
 
@@ -58,7 +58,7 @@ public class Airplane {
             throw new IllegalArgumentException(Integer.toString(maxFirst));
     }
 
-    public int getMaxCoach() {
+    private int getMaxCoach() {
         return maxCoach;
     }
 
@@ -69,11 +69,10 @@ public class Airplane {
         else
             throw new IllegalArgumentException(Integer.toString(maxCoach));
     }
-
-    public boolean isValidSeat(int seatNum) {
-        if(seatNum<=0)
-            return false;
-        else
-            return true;
+    public boolean isValid(){
+        return isValidSeat(this.getMaxCoach()) && isValidSeat(this.getMaxFirst());
+    }
+    private boolean isValidSeat(int seatNum) {
+        return seatNum > 0;
     }
 }

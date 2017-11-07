@@ -1,9 +1,11 @@
 package util;
 
-import DAO.DaoAirport;
-import DAO.DaoFlight;
-import entity.Airports;
-import entity.Flights;
+import beans.Airplanes;
+import dao.DaoAirplane;
+import dao.DaoAirport;
+import dao.DaoFlight;
+import beans.Airports;
+import beans.Flights;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -17,7 +19,13 @@ public enum HttpUtil {
 
     private static String urlBase = "http://cs509.cs.wpi.edu:8181/CS509.server/ReservationSystem";
 
-
+    /**
+     *
+     * @param teamName the name of the team
+     * @param date the departure date
+     * @param code the code of the airport
+     * @return ArrayList<Flight> that contains departure flights
+     */
     public Flights getFlights (String teamName,String date,String code) {
 
         URL url;
@@ -25,29 +33,17 @@ public enum HttpUtil {
         BufferedReader reader;
         String line;
         StringBuilder result = new StringBuilder();
-
         String xmlFlights;
         Flights flights;
 
         try {
-            /**
-             * Create an HTTP connection to the server for a GET
-             */
             url = new URL(urlBase + QueryFactory.getDepFlights(teamName,date,code));
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.setRequestProperty("User-Agent", teamName);
-
-            /**
-             * If response code of SUCCESS read the XML string returned
-             * line by line to build the full return string
-             */
             int responseCode = connection.getResponseCode();
             if (responseCode >= HttpURLConnection.HTTP_OK) {
                 InputStream inputStream = connection.getInputStream();
-                String encoding = connection.getContentEncoding();
-                encoding = (encoding == null ? "UTF-8" : encoding);
-
                 reader = new BufferedReader(new InputStreamReader(inputStream));
                 while ((line = reader.readLine()) != null) {
                     result.append(line);
@@ -75,24 +71,13 @@ public enum HttpUtil {
         Airports airports;
 
         try {
-            /**
-             * Create an HTTP connection to the server for a GET
-             */
             url = new URL(urlBase + QueryFactory.getAirports(teamName));
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.setRequestProperty("User-Agent", teamName);
-
-            /**
-             * If response code of SUCCESS read the XML string returned
-             * line by line to build the full return string
-             */
             int responseCode = connection.getResponseCode();
             if (responseCode >= HttpURLConnection.HTTP_OK) {
                 InputStream inputStream = connection.getInputStream();
-                String encoding = connection.getContentEncoding();
-                encoding = (encoding == null ? "UTF-8" : encoding);
-
                 reader = new BufferedReader(new InputStreamReader(inputStream));
                 while ((line = reader.readLine()) != null) {
                     result.append(line);
@@ -139,7 +124,7 @@ public enum HttpUtil {
 
             BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             String line;
-            StringBuffer response = new StringBuffer();
+            StringBuilder response = new StringBuilder();
 
             while ((line = in.readLine()) != null) {
                 response.append(line);
@@ -190,7 +175,7 @@ public enum HttpUtil {
             if (responseCode >= HttpURLConnection.HTTP_OK) {
                 BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 String line;
-                StringBuffer response = new StringBuffer();
+                StringBuilder response = new StringBuilder();
 
                 while ((line = in.readLine()) != null) {
                     response.append(line);
@@ -199,16 +184,44 @@ public enum HttpUtil {
 
                 System.out.println(response.toString());
             }
-        }
-        catch (IOException ex) {
-            ex.printStackTrace();
-            return false;
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             return false;
         }
         return true;
+    }
+
+    public Airplanes getAirplanes(String teamName) {
+        URL url;
+        HttpURLConnection connection;
+        BufferedReader reader;
+        String line;
+        StringBuilder result = new StringBuilder();
+
+        String xmlAirplanes;
+        Airplanes airplanes;
+
+        try {
+            url = new URL(urlBase + QueryFactory.getAirplanes(teamName));
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("User-Agent", teamName);
+            int responseCode = connection.getResponseCode();
+            if (responseCode >= HttpURLConnection.HTTP_OK) {
+                InputStream inputStream = connection.getInputStream();
+                reader = new BufferedReader(new InputStreamReader(inputStream));
+                while ((line = reader.readLine()) != null) {
+                    result.append(line);
+                }
+                reader.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        xmlAirplanes = result.toString();
+        airplanes = DaoAirplane.addAll(xmlAirplanes);
+        return airplanes;
     }
 //    /**
 //     * @param  request  // the raw string request determined in other classes

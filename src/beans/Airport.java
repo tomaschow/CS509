@@ -1,4 +1,4 @@
-package entity;
+package beans;
 
 import util.Saps;
 
@@ -13,10 +13,6 @@ public class Airport {
     private String name;
     private double latitude;
     private double longitude;
-
-    public Airport(String code) {
-        this.code = code;
-    }
 
     public Airport(){
         code = "";
@@ -116,33 +112,20 @@ public class Airport {
             return false;
 
         // Verify latitude and longitude are within range
-        if (!isValidLatitude(latitude)||!isValidLongitude(longitude)) {
-            return false;
-        }
-
-        return true;
+        return isValidLatitude(latitude) && isValidLongitude(longitude);
     }
-    public boolean isValidName(String name) {
-        if ((name == null) || (name == "")) {
-            return false;
-        }
-        return true;
+    private boolean isValidName(String name) {
+        return (name != null) && (name != "");
     }
 
-    public boolean isValidCode(String code) {
-        if ((code == null) || (code.length() != 3)) {
-            return false;
-        }
-        return true;
+    private boolean isValidCode(String code) {
+        return (code != null) && (code.length() == 3);
     }
 
-    public boolean isValidLatitude(double latitude) {
-        if ((latitude > Saps.MAX_LATITUDE) || (latitude < Saps.MIN_LATITUDE)) {
-            return false;
-        }
-        return true;
+    private boolean isValidLatitude(double latitude) {
+        return (!(latitude > Saps.MAX_LATITUDE)) && (!(latitude < Saps.MIN_LATITUDE));
     }
-    public boolean isValidLatitude(String latitude) {
+    private boolean isValidLatitude(String latitude) {
         double lat;
         try {
             lat = Double.parseDouble(latitude);
@@ -152,13 +135,10 @@ public class Airport {
         return isValidLatitude(lat);
     }
 
-    public boolean isValidLongitude(double longitude) {
-        if ((longitude > Saps.MAX_LONGITUDE) || (longitude < Saps.MIN_LONGITUDE)) {
-            return false;
-        }
-        return true;
+    private boolean isValidLongitude(double longitude) {
+        return (!(longitude > Saps.MAX_LONGITUDE)) && (!(longitude < Saps.MIN_LONGITUDE));
     }
-    public boolean isValidLongitude(String longitude) {
+    private boolean isValidLongitude(String longitude) {
         double lon;
         try {
             lon = Double.parseDouble(longitude);

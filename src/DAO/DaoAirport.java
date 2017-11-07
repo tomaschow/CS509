@@ -1,7 +1,7 @@
-package DAO;
+package dao;
 
-import entity.Airports;
-import entity.Airport;
+import beans.Airports;
+import beans.Airport;
 import org.w3c.dom.CharacterData;
 import org.w3c.dom.*;
 import org.xml.sax.InputSource;

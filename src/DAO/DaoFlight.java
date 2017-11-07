@@ -1,8 +1,8 @@
-package DAO;
+package dao;
 
-import entity.Flights;
-import entity.Airplane;
-import entity.Flight;
+import beans.Flights;
+import beans.Airplane;
+import beans.Flight;
 import org.w3c.dom.CharacterData;
 import org.w3c.dom.*;
 import org.xml.sax.InputSource;
