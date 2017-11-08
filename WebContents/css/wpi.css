@@ -1,0 +1,20 @@
+.jumbotron{
+    background-color: #f4511e;
+    color: #ffffff;
+}
+.bg-dark{
+    background-color: #c3511e;
+}
+.container-fluid{
+    padding: 20px 30px;
+}
+input.submit{
+    background-color: #2e6da4;
+    color: #ffffff;
+}
+label.index-label-small{
+    margin: 5px 20px;
+}
+fieldset.sub-nav-select{
+    margin: 20px;
+}
