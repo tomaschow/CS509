@@ -46,7 +46,7 @@ public class Main {
     }
 
     private static boolean isValidDate(String dateString) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy_MM_dd");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy_MMM_dd");
         try {
             format.parse(dateString);
         } catch (ParseException e) {
