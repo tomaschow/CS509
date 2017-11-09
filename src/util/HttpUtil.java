@@ -1,15 +1,19 @@
 package util;
 
-import beans.Airplanes;
+import beans.*;
 import dao.DaoAirplane;
 import dao.DaoAirport;
 import dao.DaoFlight;
-import beans.Airports;
-import beans.Flights;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+
+import static util.Saps.TEAM_NAME;
 
 /**
  * Created by: Tomas on 2017/10/03.
@@ -21,12 +25,11 @@ public enum HttpUtil {
 
     /**
      *
-     * @param teamName the name of the team
      * @param date the departure date
      * @param code the code of the airport
      * @return ArrayList<Flight> that contains departure flights
      */
-    public Flights getFlights (String teamName,String date,String code) {
+    public ArrayList<Flight> getFlights (String date,String code) {
 
         URL url;
         HttpURLConnection connection;
@@ -34,13 +37,13 @@ public enum HttpUtil {
         String line;
         StringBuilder result = new StringBuilder();
         String xmlFlights;
-        Flights flights;
+        ArrayList<Flight> flights;
 
         try {
-            url = new URL(urlBase + QueryFactory.getDepFlights(teamName,date,code));
+            url = new URL(urlBase + QueryFactory.getDepFlights(date,code));
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
-            connection.setRequestProperty("User-Agent", teamName);
+            connection.setRequestProperty("User-Agent", TEAM_NAME);
             int responseCode = connection.getResponseCode();
             if (responseCode >= HttpURLConnection.HTTP_OK) {
                 InputStream inputStream = connection.getInputStream();
@@ -59,7 +62,11 @@ public enum HttpUtil {
         return flights;
     }
 
-    public Airports getAirports (String teamName) {
+    /**
+     * Get the airport list from server
+     * @return A list of airports
+     */
+    public ArrayList<Airport> getAirports () {
 
         URL url;
         HttpURLConnection connection;
@@ -68,13 +75,13 @@ public enum HttpUtil {
         StringBuilder result = new StringBuilder();
 
         String xmlAirports;
-        Airports airports;
+        ArrayList<Airport> airports;
 
         try {
-            url = new URL(urlBase + QueryFactory.getAirports(teamName));
+            url = new URL(urlBase + QueryFactory.getAirports());
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
-            connection.setRequestProperty("User-Agent", teamName);
+            connection.setRequestProperty("User-Agent", TEAM_NAME);
             int responseCode = connection.getResponseCode();
             if (responseCode >= HttpURLConnection.HTTP_OK) {
                 InputStream inputStream = connection.getInputStream();
@@ -96,10 +103,9 @@ public enum HttpUtil {
     /**
      * Lock the database for updating by the specified team. The operation will fail if the lock is held by another team.
      *
-     * @param teamName is the name of team requesting server lock
      * @return true if the server was locked successfully, else false
      */
-    public boolean lock (String teamName) {
+    public boolean lock () {
         URL url;
         HttpURLConnection connection;
 
@@ -107,10 +113,10 @@ public enum HttpUtil {
             url = new URL(urlBase);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
-            connection.setRequestProperty("User-Agent", teamName);
+            connection.setRequestProperty("User-Agent", TEAM_NAME);
             connection.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
 
-            String params = QueryFactory.lock(teamName);
+            String params = QueryFactory.lock();
 
             connection.setDoOutput(true);
             DataOutputStream writer = new DataOutputStream(connection.getOutputStream());
@@ -146,10 +152,9 @@ public enum HttpUtil {
      *
      * The server interface to unlock the server interface uses HTTP POST protocol
      *
-     * @param teamName is the name of the team holding the lock
      * @return true if the server was successfully unlocked.
      */
-    public boolean unlock (String teamName) {
+    public boolean unlock () {
         URL url;
         HttpURLConnection connection;
 
@@ -158,7 +163,7 @@ public enum HttpUtil {
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
 
-            String params = QueryFactory.unlock(teamName);
+            String params = QueryFactory.unlock();
 
             connection.setDoOutput(true);
             connection.setDoInput(true);
@@ -191,7 +196,11 @@ public enum HttpUtil {
         return true;
     }
 
-    public Airplanes getAirplanes(String teamName) {
+    /**
+     * Get a list of airplanes from the server
+     * @return The list of airplanes
+     */
+    public ArrayList<Airplane> getAirplanes() {
         URL url;
         HttpURLConnection connection;
         BufferedReader reader;
@@ -199,13 +208,13 @@ public enum HttpUtil {
         StringBuilder result = new StringBuilder();
 
         String xmlAirplanes;
-        Airplanes airplanes;
+        ArrayList<Airplane> airplanes;
 
         try {
-            url = new URL(urlBase + QueryFactory.getAirplanes(teamName));
+            url = new URL(urlBase + QueryFactory.getAirplanes());
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
-            connection.setRequestProperty("User-Agent", teamName);
+            connection.setRequestProperty("User-Agent", TEAM_NAME);
             int responseCode = connection.getResponseCode();
             if (responseCode >= HttpURLConnection.HTTP_OK) {
                 InputStream inputStream = connection.getInputStream();

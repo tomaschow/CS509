@@ -1,6 +1,5 @@
 package dao;
 
-import beans.Airports;
 import beans.Airport;
 import org.w3c.dom.CharacterData;
 import org.w3c.dom.*;
@@ -12,16 +11,15 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.ArrayList;
 
 /**
  * Created by: Tomas on 2017/11/01.
  */
 public class DaoAirport {
-    public static Airports addAll (String xmlAirports) throws NullPointerException {
-        Airports airports = new Airports();
+    public static ArrayList<Airport> addAll (String xmlAirports) throws NullPointerException {
+        ArrayList<Airport> airports = new ArrayList<>();
 
-        // Load the XML string into a DOM tree for ease of processing
-        // then iterate over all nodes adding each airport to our collection
         Document docAirports = buildDomDoc (xmlAirports);
         assert docAirports != null;
         NodeList nodesAirports = docAirports.getElementsByTagName("Airport");

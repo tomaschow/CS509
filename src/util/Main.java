@@ -4,6 +4,8 @@ import beans.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Scanner;
 
 /**
@@ -13,8 +15,8 @@ import java.util.Scanner;
  */
 public class Main {
     public static void main(String[] args) throws ParseException {
-        //Airplanes airplanes = HttpUtil.INSTANCE.getAirplanes("Shoebill"); // Not used for now
-        Airports airports = HttpUtil.INSTANCE.getAirports("Shoebill"); // Used for validating airport codes
+        //ArrayList<Airplane> airplanes = HttpUtil.INSTANCE.getAirplanes(); // Not used for now
+        ArrayList<Airport> airports = HttpUtil.INSTANCE.getAirports(); // Used for validating airport codes
 
         Scanner scanner = new Scanner(System.in);
         System.out.println("Input date (yyyy_MM_dd) please!");
@@ -32,10 +34,10 @@ public class Main {
         }
         // Only date with format of "yyyy_MM_dd" can be accepted.
         // Only airport code with 3 uppercase letters can be accepted.
-        displayFlights(HttpUtil.INSTANCE.getFlights("Shoebill", date, code));
+        displayFlights(HttpUtil.INSTANCE.getFlights( date, code));
     }
 
-    private static boolean isValidCode(Airports airports, String codeString) {
+    private static boolean isValidCode(ArrayList<Airport> airports, String codeString) {
         if(codeString.matches("[A-Z]{3}")) {
             for (Airport airport : airports) {
                 if (codeString.equals(airport.getCode()))
@@ -46,7 +48,7 @@ public class Main {
     }
 
     private static boolean isValidDate(String dateString) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy_MMM_dd");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy MMM dd hh:mm z", Locale.ENGLISH);
         try {
             format.parse(dateString);
         } catch (ParseException e) {
@@ -60,7 +62,7 @@ public class Main {
      * Displays the flights in console, for demo purposes
      * @param flights A collection of Flight, coming from HttpUtil.getFlights()
      */
-    private static void displayFlights(Flights flights) {
+    private static void displayFlights(ArrayList<Flight> flights) {
         System.out.println("\nThe List of Flights\nFlightNumber\tDeparture\tDepartureTime\t\t\t\tArrival\tArrivalTime\t\t\t\t\t" +
                 "FC-Booked\tFC-Price\t\t\tEC-Booked\tEC-Price\t\t" +
                 "TravelTime(minutes)");

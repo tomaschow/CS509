@@ -11,4 +11,7 @@ public class Saps {
     public static final double MIN_LATITUDE = -90.0;
     public static final double MAX_LONGITUDE = 180.0;
     public static final double MIN_LONGITUDE = -180.0;
+    public static final String TEAM_NAME = "Shoebill";
+    public static final long ONE_MINUTE_IN_MILLIS = 60000;
+    public static final long STOPOVER_IN_MINUTE = 30;
 }

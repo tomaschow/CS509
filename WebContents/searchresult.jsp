@@ -1,6 +1,6 @@
 <%@ page import="beans.Flight" %>
-<%@ page import="beans.Flights" %>
 <%@ page import="util.HttpUtil" %>
+<%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%
     String code = request.getParameter("dep-airport");
@@ -17,7 +17,7 @@
 <body>
 <h4>
     <%
-        Flights flights = HttpUtil.INSTANCE.getFlights("Shoebill", date, code);
+        ArrayList<Flight> flights = HttpUtil.INSTANCE.getFlights(date, code);
         out.println("Displaying departure flights from " + code + " at " + date);%>
 </h4>
 <p>
