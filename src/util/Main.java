@@ -1,6 +1,7 @@
 package util;
 
-import beans.*;
+import beans.Airport;
+import beans.Flight;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,7 +18,6 @@ public class Main {
     public static void main(String[] args) throws ParseException {
         //ArrayList<Airplane> airplanes = HttpUtil.INSTANCE.getAirplanes(); // Not used for now
         ArrayList<Airport> airports = HttpUtil.INSTANCE.getAirports(); // Used for validating airport codes
-
         Scanner scanner = new Scanner(System.in);
         System.out.println("Input date (yyyy_MM_dd) please!");
         String date = scanner.nextLine();
