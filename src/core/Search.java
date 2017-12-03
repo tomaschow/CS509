@@ -70,12 +70,13 @@ public class Search {
         /**
          * 根据参数搜索，返回结果集Arraylist<Trip>
          */
+        return null;
     }
     private boolean isValid(){
         /**
          * 验证两个机场是否存在于airports
          *
           */
-
+        return true;
     }
 }
