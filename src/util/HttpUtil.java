@@ -1,6 +1,8 @@
 package util;
 
-import beans.*;
+import beans.Airplane;
+import beans.Airport;
+import beans.Flight;
 import dao.DaoAirplane;
 import dao.DaoAirport;
 import dao.DaoFlight;
@@ -29,7 +31,7 @@ public enum HttpUtil {
      * @param code the code of the airport
      * @return ArrayList<Flight> that contains departure flights
      */
-    public ArrayList<Flight> getFlights (String date,String code) {
+    public ArrayList<Flight> getFlights (boolean isDeparture, String date,String code) {
 
         URL url;
         HttpURLConnection connection;
@@ -40,7 +42,11 @@ public enum HttpUtil {
         ArrayList<Flight> flights;
 
         try {
-            url = new URL(urlBase + QueryFactory.getDepFlights(date,code));
+            if(isDeparture) {
+                url = new URL(urlBase + QueryFactory.getDepFlights(date, code));
+            }else{
+                url = new URL(urlBase + QueryFactory.getArrFlights(date, code));
+            }
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.setRequestProperty("User-Agent", TEAM_NAME);
@@ -232,44 +238,4 @@ public enum HttpUtil {
         airplanes = DaoAirplane.addAll(xmlAirplanes);
         return airplanes;
     }
-//    /**
-//     * @param  request  // the raw string request determined in other classes
-//     * @return response // The raw XML string
-//     */
-//    static String doGet(String request) {
-//        String finalURL = urlBase + request;
-//        String response = "ERROR";
-//        try{
-//            URL url = new URL(finalURL);
-//            URLConnection conn = url.openConnection();
-//            int timeout = 12000;
-//            conn.setConnectTimeout(timeout);
-//            conn.setRequestProperty("Accept-Charset","UTF-8");
-//            InputStream is = conn.getInputStream();
-//            Scanner scanner = new Scanner(is);
-//            //
-//            response = scanner.useDelimiter("\\A").next();
-//            System.out.println("Data received: "+response);
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return response;
-//    }
-//    static void doPost(){
-//        String request = "team=Shoebill&action=lockDB";
-////        String request = "team=Shoebill&action=unlockDB";
-//        try {
-//            URLConnection conn = new URL(urlBase).openConnection();
-//            conn.setDoOutput(true);
-//            conn.setRequestProperty("Accept-Charset", "UTF-8");
-////            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
-//            OutputStream os = conn.getOutputStream();
-//            os.write(request.getBytes("UTF-8"));
-//            InputStream is = conn.getInputStream();
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
 }

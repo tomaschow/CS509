@@ -34,7 +34,7 @@ public class Main {
         }
         // Only date with format of "yyyy_MM_dd" can be accepted.
         // Only airport code with 3 uppercase letters can be accepted.
-        displayFlights(HttpUtil.INSTANCE.getFlights( date, code));
+        displayFlights(HttpUtil.INSTANCE.getFlights(true, date, code));
     }
 
     private static boolean isValidCode(ArrayList<Airport> airports, String codeString) {

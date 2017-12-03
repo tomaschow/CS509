@@ -36,7 +36,7 @@ class QueryFactory {
     /**
      * Return a query string of departure flights from an airport at a date
      *
-     * @param date the departure time
+     * @param date the departure date
      * @param code the code of the airport
      * @return the query string of get departure flights from an airport at a date
      */
@@ -44,6 +44,15 @@ class QueryFactory {
         return "?team=" + TEAM_NAME + "&action=list&list_type=departing&airport="+code+"&day="+date;
     }
 
+    /**
+     * Return a query string of arriving flights at an airport at a date
+     * @param date the arrival date
+     * @param code the code of airport
+     * @return query string of get arrival flights at airport at a date
+     */
+    static String getArrFlights(String date, String code){
+        return "?team=" + TEAM_NAME + "&action=list&list_type=departing&airport="+ code + "&day=" +date;
+    }
     /**
      *
      * Return query string of getting all of the airplanes
