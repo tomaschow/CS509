@@ -13,8 +13,11 @@ import static util.Saps.STOPOVER_IN_MINUTE;
  * Created by: Tomas on 2017/11/09.
  */
 public class Trip {
+    private long tripID;
     private ArrayList<Flight> flights;
 
+    public long getTripID() { return tripID; }
+    public void setTripID(long tripID) {this.tripID = tripID; }
     public ArrayList<Flight> getFlights() {
         return flights;
     }
