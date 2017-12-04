@@ -114,6 +114,7 @@
                     <div class="row clearfix">
                         <div class="col-md-2 column">
                              <button type="button" href="#modal-container-<%=count%>" data-toggle="modal" class="btn btn-lg btn-success">Select</button>
+                                    <form method="post" class="form-horizontal" role="form" id="orderForm" action="#">
                                     <div class="modal fade" id="modal-container-<%=count%>" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
@@ -124,29 +125,38 @@
                                                 </h4>
                                             </div>
                                             <div class="modal-body">
-                                                <p>Booking flight no. <%= trip.getFlights().get(0).getFlightNumber() %></p>
-                                                <form class="form-horizontal" role="form" action="./">
-                                                    <div class="form-group">
-                                                        <label for="uname" class="col-sm-2 control-label">A</label>
+                                               
+                                                <form class="form-horizontal" role="form">
+                                                    <% int mCount=0;for(Flight flight:trip.getFlights())
+                                                    {mCount++;%>
+                                                        <div class="form-group">
+                                                        <label class="col-sm-2"><%=flight.getFlightNumber()%></label>
                                                         <div class="col-sm-9">
-                                                            <input type="text" id="uname" name="uname" class="form-control well" placeholder="aaa"/>
+                                                            <fieldset>
+                                                            <label class="check col">
+                                                              <input id="coach" type="radio" name="seat-type<%=mCount%>" checked="checked">
+                                                                <span class="inline-label">Coach</span>
+                                                            </label>
+                                                            <label class="check col">
+                                                              <input id="firstclass" type="radio" name="seat-type<%=mCount%>" >
+                                                                <span class="inline-label">FirstClass</span>
+                                                            </label>
+                                                          </fieldset>
                                                         </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="upwd" class="col-sm-2 control-label">B</label>
-                                                        <div class="col-sm-9">
-                                                            <input type="password" id="upwd" name="upwd" class="form-control well" placeholder="bbb"/>
                                                         </div>
-                                                    </div>
+                                                <%}%>
+                                                   
                                                 </form>
+                                               
                                             </div>
                                             <div class="modal-footer">
                                                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button> <button type="submit" class="btn btn-primary">Confirm</button>
                                             </div>
                                         </div>
-                                        
                                     </div>
-                                    
+                                    </div>
+                                    </form>
+
                                 </div>
                         </div>
                         <div class="col-md-6 column">

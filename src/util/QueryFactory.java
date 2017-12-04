@@ -66,10 +66,10 @@ class QueryFactory {
 
     static String order(ArrayList<String> flightNumbers, ArrayList<String> seatTypes) {
         StringBuilder result = new StringBuilder();
-        result.append("<Flights>");
+        result.append("?team="+TEAM_NAME+"&action=buyTickets&flightData=<Flights>");
         int i=0;
         for(String flightNumber:flightNumbers){
-            result.append("<Flight number="+flightNumber+" seating="+seatTypes.get(i)+"/>");
+            result.append("<Flight number=").append(flightNumber).append(" seating=").append(seatTypes.get(i)).append("/>");
             i++;
         }
         result.append("</Flights>");

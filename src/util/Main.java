@@ -2,6 +2,7 @@ package util;
 
 import beans.Airport;
 import beans.Flight;
+import beans.Trip;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,13 +16,48 @@ import java.util.Locale;
  */
 public class Main {
     public static void main(String[] args) throws ParseException {
-        ArrayList<String> flights = new ArrayList<>();
-        ArrayList<String> seats = new ArrayList<>();
-        flights.add("4972");
-        flights.add("4973");
-        seats.add("FirstClass");
-        seats.add("Coach");
-        System.out.println(QueryFactory.order(flights,seats));
+        ArrayList<Trip> trips = MockResult.INSTANCE.init();
+        for(Trip trip : trips){
+            for(Flight flight:trip.getFlights()){
+                System.out.println(flight.toString());
+            }
+        }
+        System.out.println();
+//        HttpUtil.INSTANCE.unlock();
+//        ArrayList<String> flights = new ArrayList<>();
+//        ArrayList<String> seats = new ArrayList<>();
+//        flights.add("4972");
+//        flights.add("4973");
+//        seats.add("FirstClass");
+//        seats.add("Coach");
+//        HttpUtil.INSTANCE.order(flights, seats);
+//        HttpUtil.INSTANCE.lock();
+//        if(HttpUtil.INSTANCE.lock()){
+//            System.out.println("lock success");
+//            ArrayList<Airport> airports = HttpUtil.INSTANCE.getAirports();
+//            if(airports.size()>0){
+//                System.out.println("Warning, get data from a locked db");
+//                for(Airport airport:airports){
+//                    System.out.println(airport.getName());
+//                }
+//            }else{
+//                System.out.println("locking mechanism normal");
+//            }
+//            if (HttpUtil.INSTANCE.unlock()) {
+//                System.out.println("unlock success");
+//            }else{
+//                System.out.println("unlock failed");
+//            }
+//        }else{
+//            System.out.println("lock failed");
+//        }
+//        ArrayList<String> flights = new ArrayList<>();
+//        ArrayList<String> seats = new ArrayList<>();
+//        flights.add("4972");
+//        flights.add("4973");
+//        seats.add("FirstClass");
+//        seats.add("Coach");
+//        System.out.println(QueryFactory.order(flights,seats));
 //        //ArrayList<Airplane> airplanes = HttpUtil.INSTANCE.getAirplanes(); // Not used for now
 //        ArrayList<Airport> airports = HttpUtil.INSTANCE.getAirports(); // Used for validating airport codes
 //        Scanner scanner = new Scanner(System.in);
