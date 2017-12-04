@@ -7,7 +7,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
-import java.util.Scanner;
 
 /**
  * Created by: Tomas on 2017/09/24.
@@ -16,25 +15,32 @@ import java.util.Scanner;
  */
 public class Main {
     public static void main(String[] args) throws ParseException {
-        //ArrayList<Airplane> airplanes = HttpUtil.INSTANCE.getAirplanes(); // Not used for now
-        ArrayList<Airport> airports = HttpUtil.INSTANCE.getAirports(); // Used for validating airport codes
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Input date (yyyy_MM_dd) please!");
-        String date = scanner.nextLine();
-        while (!isValidDate(date)) {
-            System.out.println("Input date (yyyy_MM_dd) please!");
-            date = scanner.nextLine();
-        }
-        System.out.println("Input the code of departure airport please!");
-        String code = scanner.nextLine();
-        while(!isValidCode(airports,code)){
-            System.out.println("The code is not valid, please make sure it's an existing 3-uppercase-code.");
-            System.out.println("Input the code of departure airport please!");
-            code = scanner.nextLine();
-        }
-        // Only date with format of "yyyy_MM_dd" can be accepted.
-        // Only airport code with 3 uppercase letters can be accepted.
-        displayFlights(HttpUtil.INSTANCE.getFlights(true, date, code));
+        ArrayList<String> flights = new ArrayList<>();
+        ArrayList<String> seats = new ArrayList<>();
+        flights.add("4972");
+        flights.add("4973");
+        seats.add("FirstClass");
+        seats.add("Coach");
+        System.out.println(QueryFactory.order(flights,seats));
+//        //ArrayList<Airplane> airplanes = HttpUtil.INSTANCE.getAirplanes(); // Not used for now
+//        ArrayList<Airport> airports = HttpUtil.INSTANCE.getAirports(); // Used for validating airport codes
+//        Scanner scanner = new Scanner(System.in);
+//        System.out.println("Input date (yyyy_MM_dd) please!");
+//        String date = scanner.nextLine();
+//        while (!isValidDate(date)) {
+//            System.out.println("Input date (yyyy_MM_dd) please!");
+//            date = scanner.nextLine();
+//        }
+//        System.out.println("Input the code of departure airport please!");
+//        String code = scanner.nextLine();
+//        while(!isValidCode(airports,code)){
+//            System.out.println("The code is not valid, please make sure it's an existing 3-uppercase-code.");
+//            System.out.println("Input the code of departure airport please!");
+//            code = scanner.nextLine();
+//        }
+//        // Only date with format of "yyyy_MM_dd" can be accepted.
+//        // Only airport code with 3 uppercase letters can be accepted.
+//        displayFlights(HttpUtil.INSTANCE.getFlights(true, date, code));
     }
 
     private static boolean isValidCode(ArrayList<Airport> airports, String codeString) {
