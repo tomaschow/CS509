@@ -6,6 +6,7 @@ import util.HttpUtil;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * Created by: Tomas on 2017/11/09.
@@ -78,7 +79,7 @@ public class Search {
 
         if (index > 2){ return;}
         int cacheIndex = -1;
-        SimpleDateFormat time = new SimpleDateFormat("yyyy MMM dd HH:mm z");
+        SimpleDateFormat time = new SimpleDateFormat("yyyy MMM dd HH:mm z", Locale.ENGLISH);
         /**
          * if this list already exists
          */

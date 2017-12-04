@@ -1,10 +1,18 @@
 package beans;
-
+//new import
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import static util.Saps.ONE_MINUTE_IN_MILLIS;
 import static util.Saps.STOPOVER_IN_MINUTE;
@@ -59,5 +67,87 @@ public class Trip {
         }
         return true;
     }
+    
+    /*
+     * Calculate the price/flight_time of each trip 
+     */
+    
+    
+    //@author ghh 
 
+	  
+public double getTotalPrice(String seatPreference) {
+		double totalPrice = 0.0;
+		boolean firstClass = false;
+		if(this.flights == null || this.flights.size() == 0) {
+			return 0.00;
+		}
+		if(seatPreference.equals("FirstClass")) {
+			firstClass = true;
+		} else {
+			firstClass = false;
+		}
+		for (Flight flight : this.flights) {
+			if(firstClass) {
+				String price = flight.getFirstClassPrice();
+				price = price.substring(1, price.length());
+				totalPrice += Double.parseDouble(price);
+			} else {
+				String price = flight.getCoachClassPrice();
+				price = price.substring(1, price.length());
+				totalPrice += Double.parseDouble(price);
+			}
+		}
+		return round(totalPrice, 2);
+	}
+// @author ghh
+/**
+ * get total number of Flights in the reservation option
+ * 
+ * @return the number of flights
+ */
+public int getNumFlights() {
+	try {
+		return this.flights.size();
+	} catch (Exception ex) {
+		return 0;
+	}
+}
+public Flight getFlight(int index) {
+	Flight flight;
+	try {
+		flight = this.flights.get(index);
+	} catch (Exception ex) {
+		flight = null;
+	}
+	return flight;
+}
+public String getTotalTime() {
+		
+	DateTimeFormatter flightDateFormat = DateTimeFormatter.ofPattern("yyyy MMM d HH:mm z");
+	long totalTime = 0;
+	if (this.flights == null || this.flights.size() == 0) {
+		return "00:00";
+	}
+	try {
+			LocalDateTime departTimeLocal = LocalDateTime.parse(this.getFlight(0).getDepTime(),flightDateFormat);
+			ZonedDateTime departTimeZoned = departTimeLocal.atZone(ZoneId.of("GMT"));
+			long departTime = departTimeZoned.toInstant().toEpochMilli();
+			LocalDateTime arrivalTimeLocal = LocalDateTime.parse(this.getFlight(getNumFlights()-1).getArrTime(), flightDateFormat);
+			ZonedDateTime arrivalTimeZoned = arrivalTimeLocal.atZone(ZoneId.of("GMT"));
+			long arrivalTime = arrivalTimeZoned.toInstant().toEpochMilli();
+			totalTime = arrivalTime - departTime;
+		} catch (DateTimeParseException ex) {
+			return "INVALID";
+		}
+		return String.format("%02d:%02d",
+				TimeUnit.MILLISECONDS.toHours(totalTime),
+				TimeUnit.MILLISECONDS.toMinutes(totalTime) % TimeUnit.HOURS.toMinutes(1)
+				);
+}
+private double round(double value, int places) {
+	BigDecimal bd = new BigDecimal(value);
+	bd = bd.setScale(places, RoundingMode.HALF_UP);
+	return bd.doubleValue();
+}
 }

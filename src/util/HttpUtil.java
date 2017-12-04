@@ -30,6 +30,7 @@ public enum HttpUtil {
         HttpURLConnection connection;
 
         try {
+            lock();
             url = new URL(urlBase);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
@@ -37,8 +38,10 @@ public enum HttpUtil {
             connection.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
 
             String params = QueryFactory.order(flightNumbers,seatTypes);
-
+            System.out.println("Post param = "+params);
             connection.setDoOutput(true);
+            connection.setRequestProperty("Content-Length", Integer.toString(params.length()));
+
             DataOutputStream writer = new DataOutputStream(connection.getOutputStream());
             writer.writeBytes(params);
             writer.flush();
@@ -58,9 +61,11 @@ public enum HttpUtil {
             in.close();
 
             System.out.println(response.toString());
+            unlock();
         }
         catch (Exception ex) {
             ex.printStackTrace();
+            unlock();
             return false;
         }
         return true;
@@ -151,7 +156,7 @@ public enum HttpUtil {
      *
      * @return true if the server was locked successfully, else false
      */
-    public boolean lock () {
+    private boolean lock () {
         URL url;
         HttpURLConnection connection;
 
@@ -200,7 +205,7 @@ public enum HttpUtil {
      *
      * @return true if the server was successfully unlocked.
      */
-    public boolean unlock () {
+    private boolean unlock () {
         URL url;
         HttpURLConnection connection;
 

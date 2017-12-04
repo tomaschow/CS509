@@ -3,6 +3,7 @@ package beans;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 /**
@@ -156,13 +157,13 @@ public class Flight {
     }
 
     public  String depTimeToDate() throws ParseException {
-        SimpleDateFormat time = new SimpleDateFormat("yyyy MMM dd HH:mm z");
+        SimpleDateFormat time = new SimpleDateFormat("yyyy MMM dd HH:mm z", Locale.ENGLISH);
         SimpleDateFormat date = new SimpleDateFormat("yyyy_MM_dd");
         date.setTimeZone(TimeZone.getTimeZone("GMT"));
         return date.format(time.parse(this.getDepTime()));
     }
     public  String depTimeToNextDate() throws ParseException {
-        SimpleDateFormat time = new SimpleDateFormat("yyyy MMM dd HH:mm z");
+        SimpleDateFormat time = new SimpleDateFormat("yyyy MMM dd HH:mm z", Locale.ENGLISH);
         SimpleDateFormat date = new SimpleDateFormat("yyyy_MM_dd");
         date.setTimeZone(TimeZone.getTimeZone("GMT"));
         Date temp = new Date();
