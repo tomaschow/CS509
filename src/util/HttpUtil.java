@@ -25,6 +25,46 @@ public enum HttpUtil {
 
     private static String urlBase = "http://cs509.cs.wpi.edu:8181/CS509.server/ReservationSystem";
 
+    public boolean order (ArrayList<String> flightNumbers, ArrayList<String> seatTypes){
+        URL url;
+        HttpURLConnection connection;
+
+        try {
+            url = new URL(urlBase);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("User-Agent", TEAM_NAME);
+            connection.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+
+            String params = QueryFactory.order(flightNumbers,seatTypes);
+
+            connection.setDoOutput(true);
+            DataOutputStream writer = new DataOutputStream(connection.getOutputStream());
+            writer.writeBytes(params);
+            writer.flush();
+            writer.close();
+
+            int responseCode = connection.getResponseCode();
+            System.out.println("\nSending 'POST' to order tickets");
+            System.out.println(("\nResponse Code : " + responseCode));
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String line;
+            StringBuilder response = new StringBuilder();
+
+            while ((line = in.readLine()) != null) {
+                response.append(line);
+            }
+            in.close();
+
+            System.out.println(response.toString());
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+            return false;
+        }
+        return true;
+    }
     /**
      *
      * @param date the departure date

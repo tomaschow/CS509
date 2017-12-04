@@ -63,7 +63,7 @@ public class Flight {
     }
     @Override
     public String toString(){
-        return airplane.getName()+" "+depAirportCode+" "+depTime+" "+arrAirportCode
+        return flightNumber+" "+airplane.getName()+" "+depAirportCode+" "+depTime+" "+arrAirportCode
                 +" "+arrTime+" "+firstClassBooked+" "+firstClassPrice+" "+coachClassBooked
                 +" "+coachClassPrice;
     }

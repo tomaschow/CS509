@@ -16,8 +16,14 @@ public class Trip {
     private long tripID;
     private ArrayList<Flight> flights;
 
-    public long getTripID() { return tripID; }
-    public void setTripID(long tripID) {this.tripID = tripID; }
+    public long getTripID() {
+        return tripID;
+    }
+
+    public void setTripID(long tripID) {
+        this.tripID = tripID;
+    }
+
     public ArrayList<Flight> getFlights() {
         return flights;
     }
