@@ -20,9 +20,7 @@ public class Cache {
         this.code = code;
     }
 
-    public String getDate() {
-        return date;
-    }
+    public String getDate() {return date;}
 
     public void setDate(String date) {
         this.date = date;

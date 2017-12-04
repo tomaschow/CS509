@@ -2,6 +2,8 @@ package util;
 
 import beans.Airport;
 import beans.Flight;
+import beans.Trip;
+import core.Search;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -16,25 +18,13 @@ import java.util.Scanner;
  */
 public class Main {
     public static void main(String[] args) throws ParseException {
-        //ArrayList<Airplane> airplanes = HttpUtil.INSTANCE.getAirplanes(); // Not used for now
-        ArrayList<Airport> airports = HttpUtil.INSTANCE.getAirports(); // Used for validating airport codes
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Input date (yyyy_MM_dd) please!");
-        String date = scanner.nextLine();
-        while (!isValidDate(date)) {
-            System.out.println("Input date (yyyy_MM_dd) please!");
-            date = scanner.nextLine();
-        }
-        System.out.println("Input the code of departure airport please!");
-        String code = scanner.nextLine();
-        while(!isValidCode(airports,code)){
-            System.out.println("The code is not valid, please make sure it's an existing 3-uppercase-code.");
-            System.out.println("Input the code of departure airport please!");
-            code = scanner.nextLine();
-        }
-        // Only date with format of "yyyy_MM_dd" can be accepted.
-        // Only airport code with 3 uppercase letters can be accepted.
-        displayFlights(HttpUtil.INSTANCE.getFlights(true, date, code));
+        Search search = new Search();
+        search.setAirplanes(HttpUtil.INSTANCE.getAirplanes());
+        search.setAirports(HttpUtil.INSTANCE.getAirports());
+        search.setArrAirportCode("DCA");
+        search.setDepAirportCode("BOS");
+        search.setDepDate("2017_12_10");
+        displayTrips(search.commenceSearch());
     }
 
     private static boolean isValidCode(ArrayList<Airport> airports, String codeString) {
@@ -72,6 +62,13 @@ public class Main {
                     +"\t\t"+flight.getArrTime()+"\t\t"+flight.getFirstClassBooked()
                     +"\t\t\t"+flight.getFirstClassPrice()+"\t\t\t\t"+flight.getCoachClassBooked()
                     +"\t\t\t"+flight.getCoachClassPrice()+"\t\t\t"+flight.getFlightTime());
+        }
+    }
+    private static void displayTrips(ArrayList<Trip> trips) {
+        System.out.println("\nThe List of Trips\nTripID\t");
+        for (Trip trip : trips) {
+            System.out.println(trip.getTripID()+"\t\t\t");
+            displayFlights(trip.getFlights());
         }
     }
 }

@@ -1,5 +1,10 @@
 package beans;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
+
 /**
  * Created by: Tomas on 2017/10/03.
  * Check toString() method! This method suits requirements of the demo
@@ -148,5 +153,20 @@ public class Flight {
 
     public void setCoachClassBooked(int coachClassBooked) {
         this.coachClassBooked = coachClassBooked;
+    }
+
+    public  String depTimeToDate() throws ParseException {
+        SimpleDateFormat time = new SimpleDateFormat("yyyy MMM dd HH:mm z");
+        SimpleDateFormat date = new SimpleDateFormat("yyyy_MM_dd");
+        date.setTimeZone(TimeZone.getTimeZone("GMT"));
+        return date.format(time.parse(this.getDepTime()));
+    }
+    public  String depTimeToNextDate() throws ParseException {
+        SimpleDateFormat time = new SimpleDateFormat("yyyy MMM dd HH:mm z");
+        SimpleDateFormat date = new SimpleDateFormat("yyyy_MM_dd");
+        date.setTimeZone(TimeZone.getTimeZone("GMT"));
+        Date temp = new Date();
+        temp.setTime(time.parse(this.getDepTime()).getTime()+24*60*60*1000);
+        return date.format(temp);
     }
 }
