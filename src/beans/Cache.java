@@ -41,4 +41,6 @@ public class Cache {
     public void setFlights(ArrayList<Flight> flights) {
         this.flights = flights;
     }
+    public void addFlights(ArrayList<Flight> flights) {this.flights.addAll(flights);}
+
 }

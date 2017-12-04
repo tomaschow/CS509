@@ -20,6 +20,7 @@ public class Search {
     private ArrayList<Airplane> airplanes;
     private ArrayList<Cache> caches = new ArrayList<Cache>();
     private ArrayList<Trip> trips = new ArrayList<Trip>();
+    private int cnt =0;
 
     public ArrayList<Airport> getAirports() {
         return airports;
@@ -69,8 +70,11 @@ public class Search {
         isNonstop = nonstop;
     }
 
+    public int getCnt() {
+        return cnt;
+    }
+
     public ArrayList<Trip> commenceSearch( ) throws ParseException {
-        System.out.println("=========In search=========/n");
         ArrayList<Flight> previousFlights = new ArrayList<Flight>();
         tripSearch(0,previousFlights,this.depAirportCode, this.depDate);
         return trips;
@@ -84,20 +88,19 @@ public class Search {
          * if this list already exists
          */
         for(int i=0; i<caches.size();i++ ){
-           if(caches.get(i).getCode().equals(departureCode) && caches.get(i).getDate().equals(departureDate)){cacheIndex=i;}
+           if(caches.get(i).getCode().equals(departureCode) && caches.get(i).getDate().equals(departureDate)){cacheIndex=i;break;}
         }
         /**
          * get new cache
          */
         if(cacheIndex<0) {
+            cnt++;
         Cache cache = new Cache();
         cache.setCode(departureCode);
         cache.setDate(departureDate);
         cache.setDeparture(true);
         cache.setFlights(HttpUtil.INSTANCE.getFlights(true, departureDate, departureCode));
-//        for (Flight flight: cache.getFlights()){
-//            System.out.println(flight);
-//        }
+        cache.addFlights(HttpUtil.INSTANCE.getFlights(true,departureDate,cache.getFlights().get(0).depTimeToNextDate()));
         caches.add(cache);
         cacheIndex = caches.size()-1;
         }
@@ -109,12 +112,11 @@ public class Search {
              * Check whether the time between each connection flight is valid
              */
             if(index > 0){
+                //System.out.println(index);
                 Long timeDiff = time.parse(caches.get(cacheIndex).getFlights().get(j).getDepTime()).getTime() - time.parse(previousFlights.get(previousFlights.size()-1).getArrTime()).getTime();
                 if(timeDiff/(60*1000) < 30){
-
                     continue;
                 }else if(timeDiff/(60*1000) > 240){
-
                     return;
                 }
             }
@@ -125,7 +127,7 @@ public class Search {
                 continue;
             }
             /**
-             * If there's no direct flight from dep to arr
+             * If this is not a direct flight to arr
              */
            if(!caches.get(cacheIndex).getFlights().get(j).getArrAirportCode().equals(this.arrAirportCode)){
                ArrayList<Flight> parentFlights = new ArrayList<>();
@@ -133,7 +135,7 @@ public class Search {
                parentFlights.add(caches.get(cacheIndex).getFlights().get(j));
                int newIndex = index + 1;
                tripSearch(newIndex, parentFlights, caches.get(cacheIndex).getFlights().get(j).getArrAirportCode(), caches.get(cacheIndex).getFlights().get(j).depTimeToDate());
-               tripSearch(newIndex, parentFlights, caches.get(cacheIndex).getFlights().get(j).getArrAirportCode(), caches.get(cacheIndex).getFlights().get(j).depTimeToNextDate());
+               //tripSearch(newIndex, parentFlights, caches.get(cacheIndex).getFlights().get(j).getArrAirportCode(), caches.get(cacheIndex).getFlights().get(j).depTimeToNextDate());
            }
             else{
                ArrayList<Flight> flights = new ArrayList<>();

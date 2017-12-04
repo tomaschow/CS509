@@ -9,6 +9,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Scanner;
 
 /**
  * Created by: Tomas on 2017/09/24.
@@ -17,23 +18,15 @@ import java.util.Locale;
  */
 public class Main {
     public static void main(String[] args) throws ParseException {
-//        ArrayList<String> flights = new ArrayList<>();
-//        ArrayList<String> seats = new ArrayList<>();
-//        flights.add("4972");
-//        flights.add("4973");
-//        seats.add("FirstClass");
-//        seats.add("Coach");
-//        HttpUtil.INSTANCE.order(flights, seats); //Try to order tickets for two flights with two seats
-
-//        System.out.println(QueryFactory.order(flights,seats));
-
         Search search = new Search();
         search.setAirplanes(HttpUtil.INSTANCE.getAirplanes());
         search.setAirports(HttpUtil.INSTANCE.getAirports());
-        search.setArrAirportCode("MCI");
-        search.setDepAirportCode("SFO");
+        search.setArrAirportCode("ATL");
+        search.setDepAirportCode("BOS");
         search.setDepDate("2017_12_10");
+        //search.commenceSearch();
         displayTrips(search.commenceSearch());
+        System.out.println(search.getCnt());
     }
 
     private static boolean isValidCode(ArrayList<Airport> airports, String codeString) {

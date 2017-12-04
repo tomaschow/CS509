@@ -62,7 +62,6 @@ public class Flight {
         this.coachClassBooked = coachClassBooked;
 
     }
-    @Override
     public String toString(){
         return flightNumber+" "+airplane.getName()+" "+depAirportCode+" "+depTime+" "+arrAirportCode
                 +" "+arrTime+" "+firstClassBooked+" "+firstClassPrice+" "+coachClassBooked
