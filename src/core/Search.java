@@ -3,6 +3,7 @@ package core;
 import beans.*;
 import util.HttpUtil;
 import util.Main;
+import util.TimezoneMapper;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -61,8 +62,13 @@ public class Search {
         return depDate;
     }
 
-    public void setDepDate(String depDate) {
-        this.depDate = depDate;
+    public void setDepDate(String depDate) throws ParseException {
+        SimpleDateFormat date = new SimpleDateFormat("yyyy_MM_dd");
+        date.setTimeZone(findTz(this.depAirportCode));
+        Date temp = new Date();
+        temp.setTime(date.parse(depDate).getTime());
+        date.setTimeZone(findTz("GMT"));
+        this.depDate = date.format(temp);
     }
 
     public boolean isNonstop() {
@@ -152,6 +158,9 @@ public class Search {
                flights.addAll(previousFlights);
                flights.add(caches.get(cacheIndex).getFlights().get(j));
                //System.out.println(caches.get(cacheIndex).getFlights().get(j));
+               for(Flight flight : flights){
+                   flight.setLocalTime();
+               }
                Trip trip = new Trip();
                trip.setFlights(flights);
                trip.setTripID(trips.size());
@@ -172,5 +181,16 @@ public class Search {
         Date temp = new Date();
         temp.setTime(date.parse(this.getDepDate()).getTime()+24*60*60*1000);
         return date.format(temp);
+    }
+
+    private TimeZone findTz(String code){
+        TimeZone tz = TimeZone.getDefault();
+        for(Airport airport: HttpUtil.airports){
+            if(code.equals(airport.getCode())){
+                tz = TimeZone.getTimeZone(TimezoneMapper.latLngToTimezoneString(airport.getLatitude(), airport.getLongitude()));
+                break;
+            }
+        }
+        return tz;
     }
 }

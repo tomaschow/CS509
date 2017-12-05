@@ -20,7 +20,7 @@ public class Main {
         Search search = new Search();
         search.setAirplanes(HttpUtil.INSTANCE.getAirplanes());
         search.setAirports(HttpUtil.INSTANCE.getAirports());
-        search.setArrAirportCode("JFK");
+        search.setArrAirportCode("ATL");
         search.setDepAirportCode("BOS");
         search.setDepDate("2017_12_10");
         //search.commenceSearch();
@@ -59,8 +59,8 @@ public class Main {
                 "TravelTime(minutes)");
         for (Flight flight : flights) {
             System.out.println(flight.getFlightNumber()+"\t\t\t"+flight.getDepAirportCode()
-                    +"\t\t\t"+flight.getDepTime()+"\t\t"+flight.getArrAirportCode()
-                    +"\t\t"+flight.getArrTime()+"\t\t"+flight.getAirplane().getMaxCoach()
+                    +"\t\t\t"+flight.getLocalDepTime()+"\t\t"+flight.getArrAirportCode()
+                    +"\t\t"+flight.getLocalArrTime()+"\t\t"+flight.getAirplane().getMaxCoach()
                     +"\t\t\t"+flight.getFirstClassPrice()+"\t\t\t\t"+flight.getCoachClassBooked()
                     +"\t\t\t"+flight.getCoachClassPrice()+"\t\t\t"+flight.getFlightTime());
         }

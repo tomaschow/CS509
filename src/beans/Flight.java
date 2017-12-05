@@ -1,5 +1,8 @@
 package beans;
 
+import util.HttpUtil;
+import util.TimezoneMapper;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -23,6 +26,8 @@ public class Flight {
     private String flightNumber;
     private String depAirportCode;
     private String depTime;
+    private String localDepTime;
+    private String localArrTime;
     private String arrAirportCode;
     private String arrTime;
     private String firstClassPrice;
@@ -85,6 +90,12 @@ public class Flight {
 
     public int getFlightTime() {
         return flightTime;
+    }
+    public String getLocalDepTime() {
+        return localDepTime;
+    }
+    public String getLocalArrTime() {
+        return localArrTime;
     }
 
     public void setFlightTime(int flightTime) {
@@ -166,8 +177,22 @@ public class Flight {
         SimpleDateFormat date = new SimpleDateFormat("yyyy_MM_dd");
         date.setTimeZone(TimeZone.getTimeZone("GMT"));
         Date temp = new Date();
-        temp.setTime(time.parse(this.getDepTime()).getTime()+24*60*60*1000);
+        temp.setTime(time.parse(this.getDepTime()).getTime() + 24 * 60 * 60 * 1000);
         return date.format(temp);
+    }
+    public void setLocalTime() throws ParseException {
+        SimpleDateFormat time = new SimpleDateFormat("yyyy MMM dd HH:mm z", Locale.ENGLISH);
+        Date temp = new Date();
+        /**
+         * set departing airport local time
+         */
+        temp.setTime(time.parse(this.getDepTime()).getTime());
+        time.setTimeZone(findTz(this.depAirportCode));
+        this.localDepTime = time.format(temp);
+
+        temp.setTime(time.parse(this.getArrTime()).getTime());
+        time.setTimeZone(findTz(this.arrAirportCode));
+        this.localArrTime = time.format(temp);
     }
     public boolean hasCoach(){
         int maxCoach = this.getAirplane().getMaxCoach();
@@ -179,5 +204,16 @@ public class Flight {
         int maxFirst = getAirplane().getMaxCoach();
         int curFirst = getCoachClassBooked();
         return (maxFirst - curFirst) > 0;
+    }
+
+    private TimeZone findTz(String code){
+        TimeZone tz = TimeZone.getDefault();
+        for(Airport airport: HttpUtil.airports){
+            if(code.equals(airport.getCode())){
+                tz = TimeZone.getTimeZone(TimezoneMapper.latLngToTimezoneString(airport.getLatitude(),airport.getLongitude()));
+                break;
+            }
+        }
+        return tz;
     }
 }

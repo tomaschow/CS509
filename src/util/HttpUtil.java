@@ -25,6 +25,7 @@ public enum HttpUtil {
 
     private static String urlBase = "http://cs509.cs.wpi.edu:8181/CS509.server/ReservationSystem";
     public  static ArrayList<Airplane> airplanes = HttpUtil.INSTANCE.getAirplanes();
+    public  static ArrayList<Airport> airports = HttpUtil.INSTANCE.getAirports();
     public boolean reserveSeats (ArrayList<String> flightNumbers, ArrayList<String> seatTypes){
         URL url;
         HttpURLConnection connection;
