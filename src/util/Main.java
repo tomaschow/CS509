@@ -4,6 +4,7 @@ import beans.Airport;
 import beans.Flight;
 import beans.Trip;
 import core.Search;
+import core.Sort;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -22,10 +23,10 @@ public class Main {
         search.setAirports(HttpUtil.INSTANCE.getAirports());
         search.setArrAirportCode("ATL");
         search.setDepAirportCode("BOS");
-        search.setDepDate("2017_12_31");
-        //search.commenceSearch();
-        displayTrips(search.commenceSearch());
-        System.out.println(search.getCnt());
+        search.setDepDate("2017_12_10");
+        ArrayList<Trip> result = search.commenceSearch();
+        Sort.sortDepTime(true,result);
+        displayTrips(result);
     }
 
     private static boolean isValidCode(ArrayList<Airport> airports, String codeString) {

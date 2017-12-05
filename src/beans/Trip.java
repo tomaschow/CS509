@@ -121,11 +121,9 @@ public class Trip {
 	 * @return the number of flights
 	 */
 	public int getNumFlights() {
-		try {
-			return this.flights.size();
-		} catch (Exception ex) {
-			return 0;
-		}
+
+		return this.flights.size();
+
 	}
 
 	public Flight getFlight(int index) {
@@ -140,9 +138,29 @@ public class Trip {
 	public String getDepDateTime(){
 		return getFlight(0).getDepTime();
 	}
-	public String getArrDateTime(){
-		return getFlight(getNumFlights()).getArrTime();
-	}
+	public String getArrDateTime(){return getFlight(getNumFlights()-1).getArrTime();}
+	public long getDepTimeMillis(){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMM dd HH:mm z", Locale.ENGLISH);
+        Date depDate = null;
+        try {
+            depDate = sdf.parse(getDepDateTime());
+            return depDate.getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+    public long getArrTimeMillis(){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMM dd HH:mm z", Locale.ENGLISH);
+        Date arrDate = null;
+        try {
+            arrDate = sdf.parse(getArrDateTime());
+            return arrDate.getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 	public String getTotalTime() {
 
 		DateTimeFormatter flightDateFormat = DateTimeFormatter.ofPattern("yyyy MMM d HH:mm z");

@@ -2,7 +2,6 @@ package core;
 
 import beans.*;
 import util.HttpUtil;
-import util.Main;
 import util.TimezoneMapper;
 
 import java.text.ParseException;
@@ -86,6 +85,7 @@ public class Search {
     public ArrayList<Trip> commenceSearch( ) throws ParseException {
         ArrayList<Flight> previousFlights = new ArrayList<Flight>();
         tripSearch(0,previousFlights,this.depAirportCode, this.depDate);
+        Sort.sortPrice(true,trips);
         return trips;
     }
     private void tripSearch(int index, ArrayList<Flight> previousFlights,String departureCode, String departureDate ) throws ParseException {
