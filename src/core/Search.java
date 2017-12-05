@@ -63,12 +63,15 @@ public class Search {
     }
 
     public void setDepDate(String depDate) throws ParseException {
-        SimpleDateFormat date = new SimpleDateFormat("yyyy_MM_dd");
-        date.setTimeZone(findTz(this.depAirportCode));
-        Date temp = new Date();
-        temp.setTime(date.parse(depDate).getTime());
-        date.setTimeZone(findTz("GMT"));
-        this.depDate = date.format(temp);
+        this.depDate = depDate;
+//        SimpleDateFormat date = new SimpleDateFormat("yyyy_MM_dd");
+//        date.setTimeZone(findTz(this.getDepAirportCode()));
+//        Date temp = new Date();
+//        temp = date.parse(depDate);
+//        date.setTimeZone(TimeZone.getTimeZone("GMT"));
+//        this.depDate = date.format(temp);
+//        System.out.println(this.getDepDate());
+
     }
 
     public boolean isNonstop() {

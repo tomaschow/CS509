@@ -20,11 +20,11 @@ public class Main {
         Search search = new Search();
         search.setAirplanes(HttpUtil.INSTANCE.getAirplanes());
         search.setAirports(HttpUtil.INSTANCE.getAirports());
-        search.setArrAirportCode("ATL");
+        search.setArrAirportCode("JFK");
         search.setDepAirportCode("BOS");
-        search.setDepDate("2017_12_31");
+        search.setDepDate("2017_12_10");
         //search.commenceSearch();
-        displayTrips(search.commenceSearch());
+       displayTrips(search.commenceSearch());
         System.out.println(search.getCnt());
     }
 
