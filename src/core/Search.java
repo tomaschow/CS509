@@ -158,9 +158,9 @@ public class Search {
                flights.addAll(previousFlights);
                flights.add(caches.get(cacheIndex).getFlights().get(j));
                //System.out.println(caches.get(cacheIndex).getFlights().get(j));
-               for(Flight flight : flights){
-                   flight.setLocalTime();
-               }
+//               for(Flight flight : flights){
+//                    flight.setLocalTime();
+//               }
                Trip trip = new Trip();
                trip.setFlights(flights);
                trip.setTripID(trips.size());

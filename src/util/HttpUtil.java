@@ -13,6 +13,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 import static util.Saps.TEAM_NAME;
@@ -77,7 +78,7 @@ public enum HttpUtil {
      * @param code the code of the airport
      * @return ArrayList<Flight> that contains departure flights
      */
-    public ArrayList<Flight> getFlights (boolean isDeparture, String date,String code) {
+    public ArrayList<Flight> getFlights (boolean isDeparture, String date,String code) throws ParseException {
 
         URL url;
         HttpURLConnection connection;

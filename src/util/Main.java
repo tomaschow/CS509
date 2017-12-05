@@ -22,7 +22,7 @@ public class Main {
         search.setAirports(HttpUtil.INSTANCE.getAirports());
         search.setArrAirportCode("ATL");
         search.setDepAirportCode("BOS");
-        search.setDepDate("2017_12_10");
+        search.setDepDate("2017_12_31");
         //search.commenceSearch();
         displayTrips(search.commenceSearch());
         System.out.println(search.getCnt());

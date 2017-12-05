@@ -13,13 +13,14 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.StringReader;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 /**
  * Created by: Tomas on 2017/11/03.
  */
 public class DaoFlight {
-    public static ArrayList<Flight> addAll (String xmlFlights) throws NullPointerException {
+    public static ArrayList<Flight> addAll (String xmlFlights) throws NullPointerException, ParseException {
         ArrayList<Flight> flights = new ArrayList<>();
 
         // Load the XML string into a DOM tree for ease of processing
@@ -40,7 +41,7 @@ public class DaoFlight {
         return flights;
     }
 
-    static private Flight buildFlight(Node nodeFlight) {
+    static private Flight buildFlight(Node nodeFlight) throws ParseException {
         Flight flight = new Flight();
 
          Airplane airplane;
@@ -97,6 +98,7 @@ public class DaoFlight {
         flight.setFirstClassPrice(firstClassPrice);
         flight.setCoachClassBooked(coachClassBooked);
         flight.setCoachClassPrice(coachClassPrice);
+        flight.setLocalTime();
         return flight;
     }
 
