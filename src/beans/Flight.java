@@ -197,12 +197,11 @@ public class Flight {
     public boolean hasCoach(){
         int maxCoach = this.getAirplane().getMaxCoach();
         int curCoach = this.getCoachClassBooked();
-        boolean result =  (maxCoach - curCoach) > 0;
-        return  result;
+        return  (maxCoach - curCoach) > 0;
     }
     public boolean hasFirst(){
-        int maxFirst = getAirplane().getMaxCoach();
-        int curFirst = getCoachClassBooked();
+        int maxFirst = getAirplane().getMaxFirst();
+        int curFirst = getFirstClassBooked();
         return (maxFirst - curFirst) > 0;
     }
 

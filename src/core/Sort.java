@@ -13,7 +13,7 @@ import java.util.Collections;
 public class Sort {
 
 	 
-	public void sortPrice(boolean ascending,ArrayList<Trip> tripOptions) {
+	public static void sortPrice(boolean ascending,ArrayList<Trip> tripOptions) {
 
 		tripOptions.sort(new TripPriceComparator());
 
@@ -27,19 +27,19 @@ public class Sort {
 	 * @param ascending (required) true if ascending, false if descending order
 	 *
 	 */
-	public void sortDepTime(boolean ascending, ArrayList<Trip> tripOptions) {
+	public static void sortDepTime(boolean ascending, ArrayList<Trip> tripOptions) {
 		tripOptions.sort(new TripFlightTimeComparator());
 		if (!ascending) {
 			Collections.reverse(tripOptions);
 		}
 	}
-	public void sortArrTime(boolean ascending, ArrayList<Trip> tripOptions) {
+	public static void sortArrTime(boolean ascending, ArrayList<Trip> tripOptions) {
 		tripOptions.sort(new TripArrTimeComparator());
 		if (!ascending) {
 			Collections.reverse(tripOptions);
 		}
 	}
-	public void sortFlightTime(boolean ascending, ArrayList<Trip> tripOptions) {
+	public static void sortFlightTime(boolean ascending, ArrayList<Trip> tripOptions) {
 		tripOptions.sort(new TripFlightTimeComparator());
 		if (!ascending) {
 			Collections.reverse(tripOptions);

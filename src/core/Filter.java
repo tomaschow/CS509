@@ -11,7 +11,7 @@ import java.util.TimeZone;
 /**
  * Created by: ghh on 2017/12/04.
  */
-public  class Filter {
+public class Filter {
 
 	public static ArrayList<Trip> StopFilter(ArrayList<Trip> trips,int stop){
 		ArrayList<Trip> filterTrip = new ArrayList<Trip>();
