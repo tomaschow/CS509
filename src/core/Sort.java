@@ -1,8 +1,11 @@
 package core;
+import beans.Trip;
+import beans.TripArrTimeComparator;
+import beans.TripFlightTimeComparator;
+import beans.TripPriceComparator;
+
 import java.util.ArrayList;
 import java.util.Collections;
-
-import beans.*;
 
 /**
   @author ghh
@@ -10,13 +13,10 @@ import beans.*;
 public class Sort {
 
 	 
-	public void sortPrice(boolean ascending,ArrayList<Trip> tripOptions,String seatType) {
+	public void sortPrice(boolean ascending,ArrayList<Trip> tripOptions) {
 
-		if(seatType.equals("FirstClass")) {
-			Collections.sort(tripOptions, new FirstTripComparator());
-		} else if(seatType.equals("Coach")) {
-			Collections.sort(tripOptions, new CoachTripComparator());
-		}
+		tripOptions.sort(new TripPriceComparator());
+
 		if (!ascending) {
 			Collections.reverse(tripOptions);
 		}
@@ -25,12 +25,25 @@ public class Sort {
 	 * This method takes a list of ReservationOption objects and sorts them
 	 * based on price in ascending or descending order depending on input
 	 * @param ascending (required) true if ascending, false if descending order
-	 * @param resOptions list(required) the reservation options to sort
+	 *
 	 */
-	public void sortTime(boolean ascending, ArrayList<Trip> tripOptions) {
-		Collections.sort(tripOptions, new TimeSortTripCompator());
+	public void sortDepTime(boolean ascending, ArrayList<Trip> tripOptions) {
+		tripOptions.sort(new TripFlightTimeComparator());
 		if (!ascending) {
 			Collections.reverse(tripOptions);
 		}
 	}
+	public void sortArrTime(boolean ascending, ArrayList<Trip> tripOptions) {
+		tripOptions.sort(new TripArrTimeComparator());
+		if (!ascending) {
+			Collections.reverse(tripOptions);
+		}
+	}
+	public void sortFlightTime(boolean ascending, ArrayList<Trip> tripOptions) {
+		tripOptions.sort(new TripFlightTimeComparator());
+		if (!ascending) {
+			Collections.reverse(tripOptions);
+		}
+	}
+
 }

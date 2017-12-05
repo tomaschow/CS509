@@ -64,7 +64,7 @@ class QueryFactory {
         return "?team=" + TEAM_NAME + "&action=list&list_type=airplanes";
     }
 
-    static String order(ArrayList<String> flightNumbers, ArrayList<String> seatTypes) {
+    static String reserveSeats(ArrayList<String> flightNumbers, ArrayList<String> seatTypes) {
         StringBuilder result = new StringBuilder();
         result.append("team="+TEAM_NAME+"&action=buyTickets&flightData=<Flights>");
         int i=0;

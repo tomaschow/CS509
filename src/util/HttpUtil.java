@@ -25,7 +25,7 @@ public enum HttpUtil {
 
     private static String urlBase = "http://cs509.cs.wpi.edu:8181/CS509.server/ReservationSystem";
 
-    public boolean order (ArrayList<String> flightNumbers, ArrayList<String> seatTypes){
+    public boolean reserveSeats (ArrayList<String> flightNumbers, ArrayList<String> seatTypes){
         URL url;
         HttpURLConnection connection;
 
@@ -37,7 +37,7 @@ public enum HttpUtil {
             connection.setRequestProperty("User-Agent", TEAM_NAME);
             connection.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
 
-            String params = QueryFactory.order(flightNumbers,seatTypes);
+            String params = QueryFactory.reserveSeats(flightNumbers,seatTypes);
             System.out.println("Post param = "+params);
             connection.setDoOutput(true);
             connection.setRequestProperty("Content-Length", Integer.toString(params.length()));

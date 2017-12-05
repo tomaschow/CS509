@@ -169,4 +169,14 @@ public class Flight {
         temp.setTime(time.parse(this.getDepTime()).getTime()+24*60*60*1000);
         return date.format(temp);
     }
+    public boolean hasCoach(){
+        int maxCoach = getAirplane().getMaxCoach();
+        int curCoach = getCoachClassBooked();
+        return (maxCoach - curCoach) > 0;
+    }
+    public boolean hasFirst(){
+        int maxFirst = getAirplane().getMaxCoach();
+        int curFirst = getCoachClassBooked();
+        return (maxFirst - curFirst) > 0;
+    }
 }

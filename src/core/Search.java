@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 /**
- * Created by: Tomas on 2017/11/09.
+ * Created by: wzz on 2017/12/03.
  */
 public class Search {
     private String depAirportCode;

@@ -46,7 +46,7 @@ public class Airplane {
         this.name = name;
     }
 
-    private int getMaxFirst() {
+    public int getMaxFirst() {
         return maxFirst;
     }
 
@@ -58,7 +58,7 @@ public class Airplane {
             throw new IllegalArgumentException(Integer.toString(maxFirst));
     }
 
-    private int getMaxCoach() {
+    public int getMaxCoach() {
         return maxCoach;
     }
 

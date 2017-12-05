@@ -9,7 +9,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
-import java.util.Scanner;
 
 /**
  * Created by: Tomas on 2017/09/24.
@@ -21,7 +20,7 @@ public class Main {
         Search search = new Search();
         search.setAirplanes(HttpUtil.INSTANCE.getAirplanes());
         search.setAirports(HttpUtil.INSTANCE.getAirports());
-        search.setArrAirportCode("ATL");
+        search.setArrAirportCode("JFK");
         search.setDepAirportCode("BOS");
         search.setDepDate("2017_12_10");
         //search.commenceSearch();
@@ -71,6 +70,7 @@ public class Main {
         for (Trip trip : trips) {
             System.out.println(trip.getTripID()+"\t\t\t");
             displayFlights(trip.getFlights());
+            System.out.println("Totalprice: $"+trip.getTotalPrice());
         }
     }
 }
