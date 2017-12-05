@@ -131,7 +131,7 @@ public class Search {
                     +caches.get(cacheIndex).getFlights().get(j).getAirplane().getMaxCoach()
                     - caches.get(cacheIndex).getFlights().get(j).getFirstClassBooked()
                     - caches.get(cacheIndex).getFlights().get(j).getCoachClassBooked();
-            if(caches.get(cacheIndex).getFlights().get(j).getArrAirportCode().equals(this.depAirportCode) || ticketsLeft == 0){
+            if(caches.get(cacheIndex).getFlights().get(j).getArrAirportCode().equals(this.depAirportCode) || ticketsLeft < 0){
                 //System.out.println("continue2");
                 continue;
             }

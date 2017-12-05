@@ -6,6 +6,7 @@ import org.w3c.dom.CharacterData;
 import org.w3c.dom.*;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import util.HttpUtil;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -57,6 +58,12 @@ public class DaoFlight {
         // The base element of Flight
         Element elementFlight = (Element) nodeFlight;
         airplane = new Airplane(elementFlight.getAttributeNode("Airplane").getValue());
+        for(Airplane airplane1: HttpUtil.airplanes){
+            if(airplane.getName().equals(airplane1.getName())){
+                airplane = airplane1;
+                break;
+            }
+        }
         flightTime = Integer.parseInt(elementFlight.getAttributeNode("FlightTime").getValue());
         flightNumber = elementFlight.getAttributeNode("Number").getValue();
         // The element of departure and arrival airports

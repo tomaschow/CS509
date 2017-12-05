@@ -55,12 +55,12 @@ public class Main {
      */
     private static void displayFlights(ArrayList<Flight> flights) {
         System.out.println("\nThe List of Flights\nFlightNumber\tDeparture\tDepartureTime\t\t\t\tArrival\tArrivalTime\t\t\t\t\t" +
-                "FC-Booked\tFC-Price\t\t\tEC-Booked\tEC-Price\t\t" +
+                "EC-Max\tFC-Price\t\t\tEC-Booked\tEC-Price\t\t" +
                 "TravelTime(minutes)");
         for (Flight flight : flights) {
             System.out.println(flight.getFlightNumber()+"\t\t\t"+flight.getDepAirportCode()
                     +"\t\t\t"+flight.getDepTime()+"\t\t"+flight.getArrAirportCode()
-                    +"\t\t"+flight.getArrTime()+"\t\t"+flight.getFirstClassBooked()
+                    +"\t\t"+flight.getArrTime()+"\t\t"+flight.getAirplane().getMaxCoach()
                     +"\t\t\t"+flight.getFirstClassPrice()+"\t\t\t\t"+flight.getCoachClassBooked()
                     +"\t\t\t"+flight.getCoachClassPrice()+"\t\t\t"+flight.getFlightTime());
         }

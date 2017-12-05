@@ -38,7 +38,7 @@ public class Airplane {
         this.manufacturer = manufacturer;
     }
 
-    String getName() {
+    public String getName() {
         return name;
     }
 

@@ -170,9 +170,10 @@ public class Flight {
         return date.format(temp);
     }
     public boolean hasCoach(){
-        int maxCoach = getAirplane().getMaxCoach();
-        int curCoach = getCoachClassBooked();
-        return (maxCoach - curCoach) > 0;
+        int maxCoach = this.getAirplane().getMaxCoach();
+        int curCoach = this.getCoachClassBooked();
+        boolean result =  (maxCoach - curCoach) > 0;
+        return  result;
     }
     public boolean hasFirst(){
         int maxFirst = getAirplane().getMaxCoach();
