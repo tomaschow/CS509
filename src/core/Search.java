@@ -62,7 +62,7 @@ public class Search {
     }
 
     public void setDepDate(String depDate) throws ParseException {
-        SimpleDateFormat date = new SimpleDateFormat("yyyy_MM_dd");
+        SimpleDateFormat date = new SimpleDateFormat("yyyy_MM_dd",Locale.ENGLISH);
         date.setTimeZone(findTz(this.depAirportCode));
         Date temp = new Date();
         temp.setTime(date.parse(depDate).getTime());

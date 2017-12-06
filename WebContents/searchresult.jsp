@@ -29,11 +29,12 @@
 </head>
 <body>
 <div class="container">
+
     <div class="row clearfix">
         <div class="col-md-14 column">
             <div class="well row clearfix">
                 <div class="col-md-12 column">
-                    <form role="form" class="form-inline" action="./test.jsp">
+                    <form role="form" class="form-inline" action="./searchresult.jsp">
                         <fieldset class="sub-nav-select">
                             <label id="flight-type-one-way-label" class="check col" for="flight-type-one-way">
                                 <input id="flight-type-one-way" type="radio" name="flight-type" value="oneway"
@@ -70,7 +71,7 @@
                                 class="form-control datepick" type="text" id="ret-date" name="ret-date">
                         </div>
                         <div class="text-left">
-                            <label class="date-label-small"><input id="nonstop" type="checkbox"/>Nonstop</label>
+
                             <button type="submit" class="btn btn-primary btn-large">Search</button>
                         </div>
                     </form>
@@ -78,60 +79,18 @@
             </div>
             <div class="row clearfix">
                 <div id="filterDiv" class="well col-sm-2 column">
-                    <div class="row clearfix">
-                        <div class="col-md-12 column">
-                            <p><strong>Stops</strong></p>
-                            <p>NonStop</p>
-                            <label class="switch">
-                                <input checked="checked" type="checkbox">
-                                <span class="slider round"></span>
-                            </label>
-                            <p>1 Stop</p>
-                            <label class="switch">
-                                <input checked="checked" type="checkbox">
-                                <span class="slider round"></span>
-                            </label>
-                            <p>2 Stops</p>
-                            <label class="switch">
-                                <input checked="checked" type="checkbox">
-                                <span class="slider round"></span>
-                            </label>
-                            <p><strong>Departure Time</strong></p>
-                            <p>Morning</p>
-                            <label class="switch">
-                                <input checked="checked" type="checkbox">
-                                <span class="slider round"></span>
-                            </label>
-                            <p>Afternoon</p>
-                            <label class="switch">
-                                <input checked="checked" type="checkbox">
-                                <span class="slider round"></span>
-                            </label>
-                            <p>Night</p>
-                            <label class="switch">
-                                <input checked="checked" type="checkbox">
-                                <span class="slider round"></span>
-                            </label>
-                            <p><strong>Arrival Time</strong></p>
-                            <p>Morning</p>
-                            <label class="switch">
-                                <input checked="checked" type="checkbox">
-                                <span class="slider round"></span>
-                            </label>
-                            <p>Afternoon</p>
-                            <label class="switch">
-                                <input checked="checked" type="checkbox">
-                                <span class="slider round"></span>
-                            </label>
-                            <p>Night</p>
-                            <label class="switch">
-                                <input checked="checked" type="checkbox">
-                                <span class="slider round"></span>
-                            </label>
-
-                        </div>
+                    <p> Filter </p>
+                    <div class="btn-group btn-group-vertical" data-toggle="buttons">
+                        <label class="btn active">
+                            <input type="checkbox" id='filter0stop' name='filter0stop' checked><span> Nonstop</span>
+                        </label>
+                        <label class="btn active">
+                            <input type="checkbox" id='filter1stop' name='filter1stop' checked><span> 1 Stop</span>
+                        </label>
+                        <label class="btn active">
+                            <input type="checkbox" id='filter2stop' name='filter2stop' checked><span> 2 Stops</span>
+                        </label>
                     </div>
-
                 </div>
                 <div id="sortDiv" class="well col-sm-10 column">
                     <h3>
@@ -144,28 +103,12 @@
                         <option value="sort_dep_late">Departure(Latest)</option>
                         <option value="sort_arr_early">Arrival(Earliest)</option>
                         <option value="sort_arr_late">Arrival(Latest)</option>
-                        <option value="sort_dur_short">Duration(Shortest)</option>
-                        <option value="sort_dur_long">Duration(Longest)</option>
+                        <option value="sort_flightTime_lo">TravelTime(Lowest)</option>
+                        <option value="sort_flightTime_hi">TravelTime(Highest)</option>
                     </select>
                     <div class="row clearfix">
-                        <div id="flight-show" class="pre-scrollable col-md-12 column">
+                        <ul id="flight-show" class="pre-scrollable col-md-12 column">
                             <%
-
-                                //    if(searchType.equals("roundtrip")){
-                                //    	// reverse departure and arrival
-                                //    	Search retSearch = new Search();
-                                //    	retSearch.setAirplanes(airplanes);
-                                //    	retSearch.setAirports(airports);
-                                //    	retSearch.setDepAirportCode(arrAirport);
-                                //    	retSearch.setArrAirportCode(depAirport);
-                                //    	retSearch.setDepDate(retDate);
-                                //    	try{
-                                //    		mockTrips = search.commenceSearch();
-                                //    	} catch(ParseException e){
-                                //    	e.printSatc
-                                //    }
-                                // }
-                                // ArrayList<Trip> mockTrips = MockResult.INSTANCE.init();
 
                                 String depAirport = request.getParameter("dep-airport");
                                 String arrAirport = request.getParameter("arr-airport");
@@ -183,6 +126,7 @@
                                     mockTrips = search.commenceSearch();
                                 } catch (ParseException e) {
                             %>
+
                             <div id="trip0" class="well row" style="text-align:center;">
                                 <h3>No result found! Please try other destinations/departures.</h3>
                             </div>
@@ -199,15 +143,28 @@
                             } else {
                                 for (Trip trip : mockTrips) {
                                     count++;
+                                    long depTime = trip.getDepTimeMillis();
+                                    long arrTime = trip.getArrTimeMillis();
                             %>
-                            <div id="trip<%=count%>" class="well row">
+                            <li depTimeMillis="<%=depTime%>" arrTimeMillis="<%=arrTime%>"
+                                travelTime="<%= trip.getTotalTimeMinute() %>" totalPrice="<%=trip.getTotalPrice()%>"
+                                id="trip<%=count%>" class="well row">
+                                <!-- <p>RET DATE = <%=retDate%></p> -->
                                 <div class="col-sm-2 column">
                                     <button id="modal-btn-<%=count%>" type="button" href="#modal-container-<%=count%>"
                                             data-toggle="modal" class="modalbtn btn btn-lg btn-success">
                                         Select
                                     </button>
-                                    <form method="post" class="form-horizontal" role="form" id="orderForm" action="#"
-                                          onsubmit="return canSubmit(<%=searchType%>);">
+                                    <form method="post" class="form-horizontal" role="form" id="orderForm"
+                                          action="./confirmation.jsp">
+
+                                        <input id="depTimeMillis" type="hidden" value="<%=depTime%>">
+                                        <input id="arrTimeMillis" type="hidden" value="<%=arrTime%>">
+                                        <input name="searchType" type="hidden" value="<%=searchType%>">
+                                        <% if (searchType.equals("roundtrip")) {%>
+                                            <input name="ret-date" type="hidden" value="<%=retDate%>">
+                                            <p>RET DATE !!!!!!= <%=retDate%></p>
+                                        <%}%>
                                         <div class="modal fade" id="modal-container-<%=count%>"
                                              role="dialog" aria-labelledby="myModalLabel"
                                              aria-hidden="true">
@@ -224,58 +181,77 @@
                                                     </div>
                                                     <div class="modal-body">
 
-                                                        <form class="form-horizontal" role="form">
-                                                            <% int mCount = 0;
-                                                                for (Flight flight : trip.getFlights()) {
-                                                                    mCount++;%>
-                                                            <div class="form-group">
-                                                                <label class="col-sm-2"><%=flight.getFlightNumber()%>
-                                                                </label>
-                                                                <div class="col-sm-6">
-                                                                    <fieldset>
-                                                                        <% if (flight.hasCoach()) { %>
-                                                                        <label class="check col">
-                                                                            <input id="coach"
-                                                                                   type="radio"
-                                                                                   name="seat-type<%=mCount%>"
-                                                                                   checked="checked">
-                                                                            <span class="inline-label">Coach</span>
-                                                                        </label>
-                                                                        <%
-                                                                            }
-                                                                            if (flight.hasFirst()) {
-                                                                        %>
-                                                                        <label class="check col">
-                                                                            <input id="firstclass"
-                                                                                   type="radio"
-                                                                                   name="seat-type<%=mCount%>">
-                                                                            <span class="inline-label">FirstClass</span>
-                                                                        </label>
-                                                                        <%}%>
-                                                                        <p><%=flight.getDepAirportCode()%>
-                                                                            -> <%=flight.getArrAirportCode()%>
-                                                                        </p>
-                                                                    </fieldset>
-                                                                </div>
-                                                                <div class="col-sm-3">
-                                                                    <%if (flight.hasCoach()) {%>
-                                                                    <p id="seat-price-<%=mCount%>"><%=flight.getCoachClassPrice()%>
-                                                                    </p>
-                                                                    <%} else {%>
-                                                                    <p id="seat-price-<%=mCount%>"><%=flight.getFirstClassPrice()%>
-                                                                    </p>
+
+                                                        <% int mCount = 0;
+                                                            for (Flight flight : trip.getFlights()) {
+                                                                mCount++;%>
+                                                        <div class="form-group">
+
+                                                            <label class="col-sm-2"><%=flight.getFlightNumber()%>
+                                                            </label><input name="flight<%=mCount%>" type="hidden"
+                                                                           value="<%=flight.getFlightNumber()%>">
+                                                            <div class="col-sm-6">
+                                                                <fieldset>
+                                                                    <% if (flight.hasCoach()) { %>
+                                                                    <label class="check col">
+                                                                        <input id="coach"
+                                                                               type="radio"
+                                                                               name="seat-type<%=mCount%>"
+                                                                               checked="checked"
+                                                                               value="Coach">
+                                                                        <span class="inline-label">Coach</span>
+                                                                    </label>
+                                                                    <%
+                                                                        }
+                                                                        if (flight.hasFirst()) {
+                                                                    %>
+                                                                    <label class="check col">
+                                                                        <input id="firstclass"
+                                                                               type="radio"
+                                                                               name="seat-type<%=mCount%>"
+                                                                               value="FirstClass">
+                                                                        <span class="inline-label">FirstClass</span>
+                                                                    </label>
                                                                     <%}%>
+                                                                    <p><%=flight.getDepAirportCode()%>
+                                                                        -> <%=flight.getArrAirportCode()%>
+                                                                    </p>
+                                                                </fieldset>
+                                                                <div class="row clearfix">
+                                                                    <div class="col-sm-6">
+                                                                        Departure <p><%=flight.getLocalDepTime()%>
+                                                                    </p>
+                                                                    </div>
+                                                                    <div class="col-sm-6">
+                                                                        Arrival <p><%=flight.getLocalArrTime()%>
+                                                                    </p>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                            <%}%>
-                                                        </form>
+                                                            <div class="col-sm-3">
+                                                                <%if (flight.hasCoach()) {%>
+                                                                Coach: <p
+                                                                    id="seat-price-<%=mCount%>"><%=flight.getCoachClassPrice()%>
+                                                            </p>
+                                                                <%
+                                                                    }
+                                                                    if (flight.hasFirst()) {
+                                                                %>
+                                                                FirstClass: <p
+                                                                    id="seat-price-<%=mCount%>"><%=flight.getFirstClassPrice()%>
+                                                            </p>
+                                                                <%}%>
+                                                            </div>
+                                                        </div>
+                                                        <%}%>
+
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button"
                                                                 class="btn btn-default"
                                                                 data-dismiss="modal">Cancel
                                                         </button>
-                                                        <button type="submit"
+                                                        <button name="confirmOrder" type="submit"
                                                                 class="btn btn-primary">Confirm
                                                         </button>
                                                     </div>
@@ -292,6 +268,11 @@
                                             </h3>
                                         </div>
                                         <div class="col-sm-2 column">
+                                            <h5>
+                                                <%= trip.getFlights().get(0).getLocalDepTime() %>
+                                            </h5>
+                                        </div>
+                                        <div class="col-sm-2 column">
                                             <h3>
                                                 ->
                                             </h3>
@@ -301,29 +282,37 @@
                                                 <%= trip.getFlights().get(trip.getFlights().size() - 1).getArrAirportCode() %>
                                             </h3>
                                         </div>
+                                        <div class="col-sm-2 column">
+                                            <h5>
+                                                <%= trip.getFlights().get(trip.getFlights().size() - 1).getLocalArrTime() %>
+                                            </h5>
+                                        </div>
                                     </div>
                                     <div class="row clearfix">
                                         <div class="col-sm-7 column">
                                             <p>
-                                                Duration <%= trip.getFlights().get(0).getFlightTime() %> minutes
-                                                (<%=trip.getFlights().size()%>) stop(s)
+                                                Duration <%= trip.getTotalTime() %>
                                             </p>
+                                            <a href="#"><%=trip.getFlights().size() - 1%>
+                                            </a> stops
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-sm-3 column">
 
                                     <h4><strong>
-                                        Starting at $<%= trip.getTotalPrice()%>
+                                        Starting at
                                     </strong></h4>
-
+                                    $
+                                    <price><%= trip.getTotalPrice()%>
+                                    </price>
                                 </div>
-                            </div>
+                            </li>
                             <%
                                     }
                                 }
                             %>
-                        </div>
+                        </ul>
 
                     </div>
                 </div>

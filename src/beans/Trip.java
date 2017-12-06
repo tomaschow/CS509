@@ -163,7 +163,7 @@ public class Trip {
     }
 	public String getTotalTime() {
 
-		DateTimeFormatter flightDateFormat = DateTimeFormatter.ofPattern("yyyy MMM d HH:mm z");
+		DateTimeFormatter flightDateFormat = DateTimeFormatter.ofPattern("yyyy MMM d HH:mm z",Locale.ENGLISH);
 		long totalTime = 0;
 		if (this.flights == null || this.flights.size() == 0) {
 			return "00:00";
@@ -184,6 +184,27 @@ public class Trip {
 				TimeUnit.MILLISECONDS.toMinutes(totalTime) % TimeUnit.HOURS.toMinutes(1)
 		);
 	}
+    public long getTotalTimeMinute() {
+
+        DateTimeFormatter flightDateFormat = DateTimeFormatter.ofPattern("yyyy MMM d HH:mm z",Locale.ENGLISH);
+        long totalTime = 0;
+        if (this.flights == null || this.flights.size() == 0) {
+            return 0;
+        }
+        try {
+            LocalDateTime departTimeLocal = LocalDateTime.parse(this.getFlight(0).getDepTime(), flightDateFormat);
+            ZonedDateTime departTimeZoned = departTimeLocal.atZone(ZoneId.of("GMT"));
+            long departTime = departTimeZoned.toInstant().toEpochMilli();
+            LocalDateTime arrivalTimeLocal = LocalDateTime.parse(this.getFlight(getNumFlights() - 1).getArrTime(), flightDateFormat);
+            ZonedDateTime arrivalTimeZoned = arrivalTimeLocal.atZone(ZoneId.of("GMT"));
+            long arrivalTime = arrivalTimeZoned.toInstant().toEpochMilli();
+            totalTime = arrivalTime - departTime;
+        } catch (DateTimeParseException ex) {
+            return 0;
+        }
+        return totalTime;
+
+    }
 
 	private double round(double value, int places) {
 		BigDecimal bd = new BigDecimal(value);

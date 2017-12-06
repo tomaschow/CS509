@@ -1,3 +1,6 @@
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="util.HttpUtil" %>
+<%@ page import="beans.Airport" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -11,6 +14,9 @@
   <link href="./css/bootstrap.min.css" rel="stylesheet"/>
   <link href="./css/wpi.css" rel="stylesheet"/>
   <script src="./js/wpi.js"></script>
+  <%
+        ArrayList<Airport> airports = HttpUtil.INSTANCE.getAirports();
+  %>
 </head>
 
 <body>
@@ -28,30 +34,39 @@
         <form role="form" class="form-inline" action="./searchresult.jsp">
           <fieldset class="sub-nav-select">
             <label id="flight-type-one-way-label" class="check col" for="flight-type-one-way">
-              <input id="flight-type-one-way" type="radio" name="flight-type" checked="checked">
+              <input id="flight-type-one-way" type="radio" name="flight-type" value="oneway" checked="checked">
                 <span class="inline-label">One way</span>
             </label>
             <label id="flight-type-roundtrip-label" class="check col" for="flight-type-roundtrip">
-              <input id="flight-type-roundtrip" type="radio" name="flight-type" >
+              <input id="flight-type-roundtrip" type="radio" name="flight-type" value="roundtrip" >
                 <span class="inline-label">Roundtrip</span>
             </label>
           </fieldset>
-          <div class="container-fluid text-left">
-            <label class="index-label-small" for="dep-airport">Departure Airport</label><input type="text" class="form-control" id="dep-airport" name="dep-airport"/>
-            <label class="index-label-small" for="arr-airport">Arrival Airport</label><input type="text" class="form-control" id="arr-airport" name="arr-airport"/>
+          <div class="text-left">
+            <label class="index-label-small" for="dep-airport">Departure Airport</label>
+                      <select id="dep-airport" name="dep-airport" class="form-control select select-primary" data-toggle="select">
+                        <%for(Airport airport : airports){%>
+                        <option value="<%=airport.getCode()%>"><%=airport.getCode()+", "+airport.getName()%></option>
+                        <%}%>
+                    </select><br>
+            <label class="arr-label-small" for="arr-airport">Arrival Airport</label>                      
+                      <select id="arr-airport" name="arr-airport" class="form-control select select-primary" data-toggle="select">
+                        <%for(Airport airport : airports){%>
+                        <option value="<%=airport.getCode()%>"><%=airport.getCode()+", "+airport.getName()%></option>
+                        <%}%>
+                    </select>
           </div>
-          <div class="container-fluid text-left">
-            <label class="index-label-small" for="dep-date">Departure Date</label><input class="form-control datepick" type="text" id="dep-date" name="dep-date">
-            <label class="index-label-small" for="ret-date" id="ret-date-label">Return Date</label><input class="form-control datepick" type="text" id="ret-date" name="ret-date">
+          <div class="text-left">
+            <label class="date-label-small" for="dep-date">Departure Date</label><input class="form-control datepick" type="text" id="dep-date" name="dep-date">
+            <label class="date-label-small" for="ret-date" id="ret-date-label">Return Date</label><input class="form-control datepick" type="text" id="ret-date" name="ret-date">
           </div>
-          <div class="container-fluid text-left">
-            <label><input id="nonstop" type="checkbox"/>Nonstop</label>
+          <div class="text-left">
+          
           <button type="submit" class="btn btn-primary btn-large">Search</button>
           </div>
         </form>   
     </div>
   </div>
-</div>
 </div>
 </body>
 </html>
