@@ -148,8 +148,12 @@
                                     } else {
                                         for (Trip trip : mockTrips) {
                                             count++;
+                                            long depTime = trip.getDepTimeMillis();
+                                            long arrTime = trip.getArrTimeMillis();
                                     %>
-                                    <li id="trip<%=count%>" class="well row">
+                                    <li depTimeMillis="<%=depTime%>" arrTimeMillis="<%=arrTime%>"
+                                        travelTime="<%= trip.getTotalTimeMinute() %>"
+                                        totalPrice="<%=trip.getTotalPrice()%>" id="trip<%=count%>" class="well row">
                                         <div class="col-sm-2 column">
                                             <button id="modal-btn-<%=count%>" type="button"
                                                     href="#modal-container-<%=count%>"
@@ -212,14 +216,30 @@
                                                                                 -> <%=flight.getArrAirportCode()%>
                                                                             </p>
                                                                         </fieldset>
+                                                                        <div class="row clearfix">
+                                                                            <div class="col-sm-6">
+                                                                                Departure
+                                                                                <p><%=flight.getLocalDepTime()%>
+                                                                                </p>
+                                                                            </div>
+                                                                            <div class="col-sm-6">
+                                                                                Arrival <p><%=flight.getLocalArrTime()%>
+                                                                            </p>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
                                                                     <div class="col-sm-3">
                                                                         <%if (flight.hasCoach()) {%>
-                                                                        <p id="seat-price-<%=mCount%>"><%=flight.getCoachClassPrice()%>
-                                                                        </p>
-                                                                        <%} else {%>
-                                                                        <p id="seat-price-<%=mCount%>"><%=flight.getFirstClassPrice()%>
-                                                                        </p>
+                                                                        Coach: <p
+                                                                            id="seat-price-<%=mCount%>"><%=flight.getCoachClassPrice()%>
+                                                                    </p>
+                                                                        <%
+                                                                            }
+                                                                            if (flight.hasFirst()) {
+                                                                        %>
+                                                                        FirstClass: <p
+                                                                            id="seat-price-<%=mCount%>"><%=flight.getFirstClassPrice()%>
+                                                                    </p>
                                                                         <%}%>
                                                                     </div>
                                                                 </div>
@@ -248,6 +268,11 @@
                                                     </h3>
                                                 </div>
                                                 <div class="col-sm-2 column">
+                                                    <h5>
+                                                        <%= trip.getFlights().get(0).getLocalDepTime() %>
+                                                    </h5>
+                                                </div>
+                                                <div class="col-sm-2 column">
                                                     <h3>
                                                         ->
                                                     </h3>
@@ -257,21 +282,30 @@
                                                         <%= trip.getFlights().get(trip.getFlights().size() - 1).getArrAirportCode() %>
                                                     </h3>
                                                 </div>
+                                                <div class="col-sm-2 column">
+                                                    <h5>
+                                                        <%= trip.getFlights().get(trip.getFlights().size() - 1).getLocalArrTime() %>
+                                                    </h5>
+                                                </div>
                                             </div>
                                             <div class="row clearfix">
                                                 <div class="col-sm-7 column">
                                                     <p>
-                                                        Duration <%= trip.getFlights().get(0).getFlightTime() %> minutes
-                                                        (<%=trip.getFlights().size()%>) stop(s)
+                                                        Duration <%= trip.getTotalTime() %>
                                                     </p>
+                                                    <a href="#"><%=trip.getFlights().size() - 1%>
+                                                    </a> stops
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-sm-3 column">
 
                                             <h4><strong>
-                                                Starting at $<%= trip.getTotalPrice()%>
+                                                Starting at
                                             </strong></h4>
+                                            $
+                                            <price><%= trip.getTotalPrice()%>
+                                            </price>
 
                                         </div>
                                     </li>

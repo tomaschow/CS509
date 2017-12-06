@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 /**
  * Created by: Tomas on 2017/11/09.
- * The cached list of flights
+ * The cached list of flights. It's an arraylist of flights with some parameters used in its search.
+ * Used by Search class
  */
 public class Cache {
     private String code; // Airport code

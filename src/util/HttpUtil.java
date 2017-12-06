@@ -25,9 +25,10 @@ public enum HttpUtil {
     INSTANCE;
 
     private static String urlBase = "http://cs509.cs.wpi.edu:8181/CS509.server/ReservationSystem";
-    public  static ArrayList<Airplane> airplanes = HttpUtil.INSTANCE.getAirplanes();
-    public  static ArrayList<Airport> airports = HttpUtil.INSTANCE.getAirports();
-    public boolean reserveSeats (ArrayList<String> flightNumbers, ArrayList<String> seatTypes){
+    public static ArrayList<Airplane> airplanes = HttpUtil.INSTANCE.getAirplanes();
+    public static ArrayList<Airport> airports = HttpUtil.INSTANCE.getAirports();
+
+    public boolean reserveSeats(ArrayList<String> flightNumbers, ArrayList<String> seatTypes) {
         URL url;
         HttpURLConnection connection;
 
@@ -40,7 +41,7 @@ public enum HttpUtil {
             connection.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
 
             String params = QueryFactory.reserveSeats(flightNumbers, seatTypes);
-            System.out.println("Post param = "+params);
+            System.out.println("Post param = " + params);
             connection.setDoOutput(true);
             connection.setRequestProperty("Content-Length", Integer.toString(params.length()));
 
@@ -64,21 +65,20 @@ public enum HttpUtil {
 
             System.out.println(response.toString());
             unlock();
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             unlock();
             return false;
         }
         return true;
     }
+
     /**
-     *
      * @param date the departure date
      * @param code the code of the airport
      * @return ArrayList<Flight> that contains departure flights
      */
-    public ArrayList<Flight> getFlights (boolean isDeparture, String date,String code) throws ParseException {
+    public ArrayList<Flight> getFlights(boolean isDeparture, String date, String code) throws ParseException {
 
         URL url;
         HttpURLConnection connection;
@@ -89,9 +89,9 @@ public enum HttpUtil {
         ArrayList<Flight> flights;
 
         try {
-            if(isDeparture) {
+            if (isDeparture) {
                 url = new URL(urlBase + QueryFactory.getDepFlights(date, code));
-            }else{
+            } else {
                 url = new URL(urlBase + QueryFactory.getArrFlights(date, code));
             }
             connection = (HttpURLConnection) url.openConnection();
@@ -117,9 +117,10 @@ public enum HttpUtil {
 
     /**
      * Get the airport list from server
+     *
      * @return A list of airports
      */
-    public ArrayList<Airport> getAirports () {
+    public ArrayList<Airport> getAirports() {
 
         URL url;
         HttpURLConnection connection;
@@ -153,12 +154,13 @@ public enum HttpUtil {
         return airports;
 
     }
+
     /**
      * Lock the database for updating by the specified team. The operation will fail if the lock is held by another team.
      *
      * @return true if the server was locked successfully, else false
      */
-    private boolean lock () {
+    private boolean lock() {
         URL url;
         HttpURLConnection connection;
 
@@ -191,8 +193,7 @@ public enum HttpUtil {
             in.close();
 
             System.out.println(response.toString());
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             return false;
         }
@@ -202,12 +203,12 @@ public enum HttpUtil {
     /**
      * Unlock the database previous locked by specified team. The operation will succeed if the server lock is held by the specified
      * team or if the server is not currently locked. If the lock is held be another team, the operation will fail.
-     *
+     * <p>
      * The server interface to unlock the server interface uses HTTP POST protocol
      *
      * @return true if the server was successfully unlocked.
      */
-    private boolean unlock () {
+    private boolean unlock() {
         URL url;
         HttpURLConnection connection;
 
@@ -251,6 +252,7 @@ public enum HttpUtil {
 
     /**
      * Get a list of airplanes from the server
+     *
      * @return The list of airplanes
      */
     public ArrayList<Airplane> getAirplanes() {

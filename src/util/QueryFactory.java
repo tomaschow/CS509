@@ -43,21 +43,24 @@ class QueryFactory {
      * @return the query string of get departure flights from an airport at a date
      */
     static String getDepFlights(String date, String code) {
-        return "?team=" + TEAM_NAME + "&action=list&list_type=departing&airport="+code+"&day="+date;
+        return "?team=" + TEAM_NAME + "&action=list&list_type=departing&airport=" + code + "&day=" + date;
     }
 
     /**
      * Return a query string of arriving flights at an airport at a date
+     *
      * @param date the arrival date
      * @param code the code of airport
      * @return query string of get arrival flights at airport at a date
      */
-    static String getArrFlights(String date, String code){
-        return "?team=" + TEAM_NAME + "&action=list&list_type=departing&airport="+ code + "&day=" +date;
+    static String getArrFlights(String date, String code) {
+        return "?team=" + TEAM_NAME + "&action=list&list_type=departing&airport=" + code + "&day=" + date;
     }
+
     /**
-     *
+     * Takes two arraylists of strings as input, generate the query flight xml data to order seats on some specific flights
      * Return query string of getting all of the airplanes
+     *
      * @return the query string
      */
     static String getAirplanes() {
@@ -66,9 +69,9 @@ class QueryFactory {
 
     static String reserveSeats(ArrayList<String> flightNumbers, ArrayList<String> seatTypes) {
         StringBuilder result = new StringBuilder();
-        result.append("team="+TEAM_NAME+"&action=buyTickets&flightData=<Flights>");
-        int i=0;
-        for(String flightNumber:flightNumbers){
+        result.append("team=" + TEAM_NAME + "&action=buyTickets&flightData=<Flights>");
+        int i = 0;
+        for (String flightNumber : flightNumbers) {
             result.append("<Flight number=\"").append(flightNumber).append("\" seating=\"").append(seatTypes.get(i)).append("\"/>");
             i++;
         }

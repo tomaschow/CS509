@@ -11,7 +11,7 @@ import java.util.TimeZone;
 
 /**
  * Created by: Tomas on 2017/10/03.
- * Check toString() method! This method suits requirements of the demo
+ *
  * airplane: The model name of the plane, and max seats of each type of seat
  * flightTime: The flight time in minutes
  * dep/arrAirportCode: The unique code for departure and arrival airports
@@ -35,7 +35,7 @@ public class Flight {
     private int firstClassBooked;
     private int coachClassBooked;
 
-    public Flight(){
+    public Flight() {
         airplane = new Airplane();
         flightTime = 0;
         flightNumber = "";
@@ -48,9 +48,11 @@ public class Flight {
         firstClassBooked = 0;
         coachClassBooked = 0;
     }
-    public boolean isValid(){
+
+    public boolean isValid() {
         return flightTime >= 0 && !firstClassPrice.equals("") && !coachClassPrice.equals("") && !flightNumber.equals("");
     }
+
     public Flight(String planeName, int flightTime, String flightNumber, String depAirportCode
             , String depTime, String arrAirportCode, String arrTime, String firstClassPrice, String coachClassPrice
             , int firstClassBooked, int coachClassBooked) {
@@ -67,11 +69,13 @@ public class Flight {
         this.coachClassBooked = coachClassBooked;
 
     }
-    public String toString(){
-        return flightNumber+" "+airplane.getName()+" "+depAirportCode+" "+depTime+" "+arrAirportCode
-                +" "+arrTime+" "+firstClassBooked+" "+firstClassPrice+" "+coachClassBooked
-                +" "+coachClassPrice;
+
+    public String toString() {
+        return flightNumber + " " + airplane.getName() + " " + depAirportCode + " " + depTime + " " + arrAirportCode
+                + " " + arrTime + " " + firstClassBooked + " " + firstClassPrice + " " + coachClassBooked
+                + " " + coachClassPrice;
     }
+
     public String getFlightNumber() {
         return flightNumber;
     }
@@ -91,9 +95,11 @@ public class Flight {
     public int getFlightTime() {
         return flightTime;
     }
+
     public String getLocalDepTime() {
         return localDepTime;
     }
+
     public String getLocalArrTime() {
         return localArrTime;
     }
@@ -166,13 +172,14 @@ public class Flight {
         this.coachClassBooked = coachClassBooked;
     }
 
-    public  String depTimeToDate() throws ParseException {
+    public String depTimeToDate() throws ParseException {
         SimpleDateFormat time = new SimpleDateFormat("yyyy MMM dd HH:mm z", Locale.ENGLISH);
         SimpleDateFormat date = new SimpleDateFormat("yyyy_MM_dd");
         date.setTimeZone(TimeZone.getTimeZone("GMT"));
         return date.format(time.parse(this.getDepTime()));
     }
-    public  String depTimeToNextDate() throws ParseException {
+
+    public String depTimeToNextDate() throws ParseException {
         SimpleDateFormat time = new SimpleDateFormat("yyyy MMM dd HH:mm z", Locale.ENGLISH);
         SimpleDateFormat date = new SimpleDateFormat("yyyy_MM_dd");
         date.setTimeZone(TimeZone.getTimeZone("GMT"));
@@ -180,6 +187,7 @@ public class Flight {
         temp.setTime(time.parse(this.getDepTime()).getTime() + 24 * 60 * 60 * 1000);
         return date.format(temp);
     }
+
     public void setLocalTime() throws ParseException {
         SimpleDateFormat time = new SimpleDateFormat("yyyy MMM dd HH:mm z", Locale.ENGLISH);
         Date temp = new Date();
@@ -194,22 +202,24 @@ public class Flight {
         time.setTimeZone(findTz(this.arrAirportCode));
         this.localArrTime = time.format(temp);
     }
-    public boolean hasCoach(){
+
+    public boolean hasCoach() {
         int maxCoach = this.getAirplane().getMaxCoach();
         int curCoach = this.getCoachClassBooked();
-        return  (maxCoach - curCoach) > 0;
+        return (maxCoach - curCoach) > 0;
     }
-    public boolean hasFirst(){
+
+    public boolean hasFirst() {
         int maxFirst = getAirplane().getMaxFirst();
         int curFirst = getFirstClassBooked();
         return (maxFirst - curFirst) > 0;
     }
 
-    private TimeZone findTz(String code){
+    private TimeZone findTz(String code) {
         TimeZone tz = TimeZone.getDefault();
-        for(Airport airport: HttpUtil.airports){
-            if(code.equals(airport.getCode())){
-                tz = TimeZone.getTimeZone(TimezoneMapper.latLngToTimezoneString(airport.getLatitude(),airport.getLongitude()));
+        for (Airport airport : HttpUtil.airports) {
+            if (code.equals(airport.getCode())) {
+                tz = TimeZone.getTimeZone(TimezoneMapper.latLngToTimezoneString(airport.getLatitude(), airport.getLongitude()));
                 break;
             }
         }

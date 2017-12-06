@@ -149,7 +149,7 @@
                             <li depTimeMillis="<%=depTime%>" arrTimeMillis="<%=arrTime%>"
                                 travelTime="<%= trip.getTotalTimeMinute() %>" totalPrice="<%=trip.getTotalPrice()%>"
                                 id="trip<%=count%>" class="well row">
-                                <!-- <p>RET DATE = <%=retDate%></p> -->
+
                                 <div class="col-sm-2 column">
                                     <button id="modal-btn-<%=count%>" type="button" href="#modal-container-<%=count%>"
                                             data-toggle="modal" class="modalbtn btn btn-lg btn-success">
@@ -158,12 +158,14 @@
                                     <form method="post" class="form-horizontal" role="form" id="orderForm"
                                           action="./confirmation.jsp">
 
-                                        <input id="depTimeMillis" type="hidden" value="<%=depTime%>">
-                                        <input id="arrTimeMillis" type="hidden" value="<%=arrTime%>">
+                                        <input id="depTimeMillis" type="hidden" value="<%=depAirport%>">
+                                        <input id="arrTimeMillis" type="hidden" value="<%=arrAirport%>">
                                         <input name="searchType" type="hidden" value="<%=searchType%>">
                                         <% if (searchType.equals("roundtrip")) {%>
-                                            <input name="ret-date" type="hidden" value="<%=retDate%>">
-                                            <p>RET DATE !!!!!!= <%=retDate%></p>
+                                        <input name="dep-airport" type="hidden" value="<%=depAirport%>">
+                                        <input name="arr-airport" type="hidden" value="<%=arrAirport%>">
+                                        <input name="ret-date" type="hidden" value="<%=retDate%>">
+
                                         <%}%>
                                         <div class="modal fade" id="modal-container-<%=count%>"
                                              role="dialog" aria-labelledby="myModalLabel"

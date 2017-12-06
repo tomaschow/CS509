@@ -5,8 +5,8 @@ import util.Saps;
 /**
  * Created by: Tomas on 2017/10/03.
  * code: The unique identifier of the airport
- * timeOffset: The difference in hours between local time and GMT
  * name: The full name of the airport
+ * lat&long: The location of the airport for local timezone calculation
  */
 public class Airport {
     private String code;
